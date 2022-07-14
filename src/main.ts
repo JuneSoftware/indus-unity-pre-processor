@@ -19,7 +19,7 @@ function run(): void
       jsonObject.push(item);
     }
 
-    core.setOutput('selectedTarget', JSON.stringify(jsonObject));
+    core.setOutput('selectedTarget', jsonObject);
   } 
   catch (error) 
   {
