@@ -26,3 +26,5 @@ jobs:
       id: run
     - name: Send greeting
       run: echo "${{ steps.run.outputs.buildTarget }}" 
+    - name: Send greeting 2
+      run: echo "${{ github.event.inputs.buildTarget }}"
