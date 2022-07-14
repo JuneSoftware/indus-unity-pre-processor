@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        targetPlatform: ${{ needs.preBuilds.outputs.result }}
+        targetPlatform: ${{ toJson(needs.preBuilds.outputs.result) }}
         #[ 
           #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
           #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
