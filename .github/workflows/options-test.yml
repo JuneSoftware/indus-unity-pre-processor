@@ -20,16 +20,16 @@ jobs:
   preBuilds:
     runs-on: ubuntu-latest
     outputs:
-      result: ${{ steps.matrixBuild.selectedTarget }}
+      result: ${{ steps.buildMatrix.outputs.selectedTarget }}
     steps:
     - uses: actions/checkout@v2
     - uses: ./
       name: Build Matrix
-      id: matrixBuild
+      id: buildMatrix
       with: 
         buildTarget: "${{ github.event.inputs.buildTarget }}"
     - name: Send greeting
-      run: echo "${{ steps.matrixBuild.outputs.selectedTarget }}" 
+      run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.subPlatform }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        targetPlatform: ${{ needs.matrixBuild.outputs.result }}
+        targetPlatform: ${{ needs.preBuilds.outputs.result }}
         #[ 
           #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
           #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
