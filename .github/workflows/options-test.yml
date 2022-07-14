@@ -20,9 +20,8 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-    - name: Send greeting
-      run: echo "${{ github.event.inputs.buildTarget }}"
     - uses: actions/checkout@v2
     - uses: ./
-      with:
-        milliseconds: 1000
+      name: Run
+    - name: Send greeting
+      run: echo "${{ steps.Run.outputs.buildTarget }}" 
