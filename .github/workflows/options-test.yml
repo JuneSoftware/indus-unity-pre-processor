@@ -17,14 +17,36 @@ on:
         - Android, iOS, Windows Server
 
 jobs:
-  greet:
+  preBuilds:
     runs-on: ubuntu-latest
+    outputs:
+      buildResult: ${{ steps.matrixBuild.selectedTarget }}
     steps:
     - uses: actions/checkout@v2
     - uses: ./
-      name: Run Script
-      id: run
+      name: Build Matrix
+      id: matrixBuild
       with: 
         buildTarget: "${{ github.event.inputs.buildTarget }}"
     - name: Send greeting
       run: echo "${{ steps.run.outputs.selectedTarget }}" 
+  build: #To create the builds
+    needs: preBuilds
+    name: Build for ${{ matrix.targetPlatform.subPlatform }}
+    runs-on: self-hosted-windows
+    outputs:
+      buildResult: ${{ steps.buildStep.outcome }}
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform: ${{ needs.matrixBuild.selectedTarget }}
+        #[ 
+          #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
+          #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
+          #{ platform: "Linux64", subPlatform: LinuxServer64, modules: "linux-il2cpp, linux-server" },
+          #{ platform: "Win64", subPlatform: Windows64, modules: "windows-il2cpp" },
+          #{ platform: "Android", subPlatform: Android, modules: "android" }
+        #]
+    steps:
+      - name: Check Out
+        run: echo "${{ matrix.targetPlatform.platform }}" 
