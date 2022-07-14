@@ -29,7 +29,7 @@ jobs:
       with: 
         buildTarget: "${{ github.event.inputs.buildTarget }}"
     - name: Send greeting
-      run: echo "${{ steps.run.outputs.selectedTarget }}" 
+      run: echo "${{ steps.matrixBuild.outputs.selectedTarget }}" 
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.subPlatform }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        targetPlatform: ${{ needs.matrixBuild.selectedTarget }}
+        targetPlatform: ${{ needs.matrixBuild.outputs.selectedTarget }}
         #[ 
           #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
           #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
