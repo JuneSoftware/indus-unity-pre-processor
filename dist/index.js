@@ -43,9 +43,10 @@ function run() {
             const platformsList = myInput.split(",", 10);
             let jsonObject = [];
             for (let i = 0; i < platformsList.length; i++) {
-                let platform = getPlatform(platformsList[i]);
-                let subPlatform = getSubPlatform(platformsList[i]);
-                let modules = getModules(platformsList[i]);
+                let platformName = platformsList[i].replace(' ', '');
+                let platform = getPlatform(platformName);
+                let subPlatform = getSubPlatform(platformName);
+                let modules = getModules(platformName);
                 let item = { platform, subPlatform, modules };
                 jsonObject.push(item);
             }
@@ -142,7 +143,7 @@ function getModules(platformName) {
                 return "linux-il2cpp, linux-server";
             }
     }
-    return "Android";
+    return "android";
 }
 run();
 
