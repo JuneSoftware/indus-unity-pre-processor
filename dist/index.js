@@ -43,9 +43,9 @@ function run() {
             const platformsList = myInput.split(",", 10);
             let jsonObject = [];
             for (let i = 0; i < platformsList.length; i++) {
-                let platform = platformsList[i];
-                let subPlatform = "Android";
-                let modules = "android";
+                let platform = getPlatform(platformsList[i]);
+                let subPlatform = getSubPlatform(platformsList[i]);
+                let modules = getModules(platformsList[i]);
                 let item = { platform, subPlatform, modules };
                 jsonObject.push(item);
             }
@@ -57,14 +57,94 @@ function run() {
         }
     });
 }
+function getPlatform(platformName) {
+    switch (platformName) {
+        case "Android":
+            {
+                return "Android";
+            }
+        case "iOS":
+            {
+                return "iOS";
+            }
+        case "Windows":
+            {
+                return "Win64";
+            }
+        case "Linux":
+            {
+                return "Linux64";
+            }
+        case "Windows Server":
+            {
+                return "Win64";
+            }
+        case "Linux Server":
+            {
+                return "Linux64";
+            }
+    }
+    return "Android";
+}
+function getSubPlatform(platformName) {
+    switch (platformName) {
+        case "Android":
+            {
+                return "Android";
+            }
+        case "iOS":
+            {
+                return "iOS";
+            }
+        case "Windows":
+            {
+                return "Windows64";
+            }
+        case "Linux":
+            {
+                return "Linux64";
+            }
+        case "Windows Server":
+            {
+                return "WindowsServer64";
+            }
+        case "Linux Server":
+            {
+                return "LinuxServer64";
+            }
+    }
+    return "Android";
+}
+function getModules(platformName) {
+    switch (platformName) {
+        case "Android":
+            {
+                return "android";
+            }
+        case "iOS":
+            {
+                return "ios";
+            }
+        case "Windows":
+            {
+                return "windows-il2cpp";
+            }
+        case "Linux":
+            {
+                return "linux-il2cpp";
+            }
+        case "Windows Server":
+            {
+                return "windows-il2cpp, windows-server";
+            }
+        case "Linux Server":
+            {
+                return "linux-il2cpp, linux-server";
+            }
+    }
+    return "Android";
+}
 run();
-/* targetPlatform: [
-  #{ platform: "iOS", subPlatform: iOS, modules: "ios" },
-  #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
-  { platform: "Linux64", subPlatform: LinuxServer64, modules: "linux-il2cpp, linux-server" },
-  #{ platform: "Win64", subPlatform: Windows64, modules: "windows-il2cpp" },
-  #{ platform: "Android", subPlatform: Android, modules: "android" }
-] */ 
 
 
 /***/ }),
