@@ -1,11 +1,13 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Build Target Pre Processor'
+description: 'To create build target matrix from selected target plaforms list'
 inputs:
-  milliseconds: # change this
+  buildTarget: 
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'List of build targets'
+    default: 'Android'
+outputs:
+  selectedTarget:
+    description: Generated matrix
 runs:
   using: 'node12'
   main: 'dist/index.js'
