@@ -40,7 +40,16 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const myInput = core.getInput('buildTarget');
-            core.setOutput('selectedTarget', myInput);
+            const platformsList = myInput.split(",", 10);
+            let targetPlatform = [];
+            let platform = "Andy";
+            let subPlatform = "Android";
+            let modules = "android";
+            let item = { platform, subPlatform, modules };
+            targetPlatform.push(item);
+            for (let i = 0; i < platformsList.length; i++) {
+            }
+            core.setOutput('selectedTarget', JSON.stringify(targetPlatform));
         }
         catch (error) {
             if (error instanceof Error)

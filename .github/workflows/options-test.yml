@@ -28,5 +28,3 @@ jobs:
         buildTarget: "${{ github.event.inputs.buildTarget }}"
     - name: Send greeting
       run: echo "${{ steps.run.outputs.selectedTarget }}" 
-    - name: Send greeting 2
-      run: echo "${{ github.event.inputs.buildTarget }}"
