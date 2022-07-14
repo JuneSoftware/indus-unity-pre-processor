@@ -9,6 +9,12 @@ on:
         options: 
         - Android
         - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+        - Android, iOS
+        - Android, iOS, Linux Server
+        - Android, iOS, Windows Server
       message:
         required: true
       use-emoji:
