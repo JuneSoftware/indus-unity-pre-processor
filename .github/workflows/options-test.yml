@@ -15,13 +15,6 @@ on:
         - Android, iOS
         - Android, iOS, Linux Server
         - Android, iOS, Windows Server
-      message:
-        required: true
-      use-emoji:
-        type: boolean
-        description: Include  emojis
-      environment:
-        type: environment
 
 jobs:
   greet:
@@ -29,4 +22,4 @@ jobs:
 
     steps:
     - name: Send greeting
-      run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", ""]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.buildTarget }}"
+      run: echo "${{ github.event.inputs.buildTarget }}"
