@@ -20,11 +20,6 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: |
-          npm install
-    - run: |
-          npm run all
     - name: Send greeting
       run: echo "${{ github.event.inputs.buildTarget }}"
     - uses: actions/checkout@v2
