@@ -40,7 +40,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const myInput = core.getInput('buildTarget');
-            core.setOutput('buildTarget', myInput);
+            core.setOutput('selectedTarget', myInput);
         }
         catch (error) {
             if (error instanceof Error)
