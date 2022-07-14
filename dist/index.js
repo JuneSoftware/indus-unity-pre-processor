@@ -40,7 +40,7 @@ function run() {
             let item = { platform, subPlatform, modules };
             jsonObject.push(item);
         }
-        core.setOutput('selectedTarget', jsonObject);
+        core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     }
     catch (error) {
         if (error instanceof Error)
