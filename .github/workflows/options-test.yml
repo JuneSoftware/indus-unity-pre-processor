@@ -20,7 +20,7 @@ jobs:
   preBuilds:
     runs-on: ubuntu-latest
     outputs:
-      buildResult: ${{ steps.matrixBuild.selectedTarget }}
+      result: ${{ steps.matrixBuild.selectedTarget }}
     steps:
     - uses: actions/checkout@v2
     - uses: ./
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        targetPlatform: ${{ needs.matrixBuild.outputs.selectedTarget }}
+        targetPlatform: ${{ needs.matrixBuild.outputs.result }}
         #[ 
           #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
           #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
