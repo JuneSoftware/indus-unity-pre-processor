@@ -22,9 +22,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ./
-      name: Run
+      name: Run Script
       id: run
+      with: 
+        buildTarget: "${{ github.event.inputs.buildTarget }}"
     - name: Send greeting
-      run: echo "${{ steps.run.outputs.buildTarget }}" 
+      run: echo "${{ steps.run.outputs.selectedTarget }}" 
     - name: Send greeting 2
       run: echo "${{ github.event.inputs.buildTarget }}"
