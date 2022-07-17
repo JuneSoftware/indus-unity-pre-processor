@@ -39,7 +39,7 @@ function run() {
         const platformsList = myInput.split(",", 10);
         let jsonObject = [];
         for (let i = 0; i < platformsList.length; i++) {
-            let platformName = platformsList[i].replaceAll(' ', '');
+            let platformName = platformsList[i].replace(/: :/g, '');
             core.debug(`Platform Name ${platformName} : Index${i}`);
             let platform = getPlatform(platformName);
             core.debug(`Selected Platform ${platform} : Index${i}`);
