@@ -12,6 +12,7 @@ function run(): void
     for (let i=0; i < platformsList.length; i++)
     {
       let platformName = platformsList[i].replace(' ', '');
+      core.debug(`Waiting ${platformName} milliseconds ...`);
       let platform = getPlatform(platformName);
       let subPlatform = getSubPlatform(platformName);
       let modules = getModules(platformName)
