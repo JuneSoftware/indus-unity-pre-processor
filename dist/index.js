@@ -45,7 +45,8 @@ function run() {
             core.debug(`Selected Platform ${platform} : Index${i}`);
             let subPlatform = getSubPlatform(platformName);
             let modules = getModules(platformName);
-            let item = { platform, subPlatform, modules };
+            let subPlatformServer = getSubPlatformServer(platformName);
+            let item = { platform, subPlatform, modules, subPlatformServer };
             jsonObject.push(item);
         }
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
@@ -141,6 +142,35 @@ function getModules(platformName) {
             }
     }
     return "android";
+}
+function getSubPlatformServer(platformName) {
+    switch (platformName) {
+        case Android:
+            {
+                return "Player";
+            }
+        case iOS:
+            {
+                return "Player";
+            }
+        case Windows:
+            {
+                return "Player";
+            }
+        case Linux:
+            {
+                return "Player";
+            }
+        case WindowsServer:
+            {
+                return "Server";
+            }
+        case LinuxServer:
+            {
+                return "Server";
+            }
+    }
+    return "Player";
 }
 run();
 
