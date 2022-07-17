@@ -90,11 +90,11 @@ function getSubPlatform(platformName: string) : string
     }
     case WindowsServer: 
     { 
-      return "WindowsServer64";
+      return "WindowsServer64 -standaloneBuildSubtarget Server";
     }
     case LinuxServer: 
     { 
-      return "LinuxServer64";
+      return "LinuxServer64 -standaloneBuildSubtarget Server";
     }
   }
   return "Android";
