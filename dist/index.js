@@ -27,14 +27,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const Android = "Android";
+const iOS = "iOS";
+const Windows = "Windows";
+const WindowsServer = "WindowsServer";
+const Linux = "Linux";
+const LinuxServer = "LinuxServer";
 function run() {
     try {
         const myInput = core.getInput('buildTarget');
         const platformsList = myInput.split(",", 10);
         let jsonObject = [];
         for (let i = 0; i < platformsList.length; i++) {
-            let platformName = platformsList[i].replace(' ', '');
+            let platformName = platformsList[i].replaceAll(' ', '');
+            core.debug(`Platform Name ${platformName} : Index${i}`);
             let platform = getPlatform(platformName);
+            core.debug(`Selected Platform ${platform} : Index${i}`);
             let subPlatform = getSubPlatform(platformName);
             let modules = getModules(platformName);
             let item = { platform, subPlatform, modules };
@@ -49,27 +57,27 @@ function run() {
 }
 function getPlatform(platformName) {
     switch (platformName) {
-        case "Android":
+        case Android:
             {
                 return "Android";
             }
-        case "iOS":
+        case iOS:
             {
                 return "iOS";
             }
-        case "Windows":
+        case Windows:
             {
                 return "Win64";
             }
-        case "Linux":
+        case Linux:
             {
                 return "Linux64";
             }
-        case "Windows Server":
+        case WindowsServer:
             {
                 return "Win64";
             }
-        case "Linux Server":
+        case LinuxServer:
             {
                 return "Linux64";
             }
@@ -78,27 +86,27 @@ function getPlatform(platformName) {
 }
 function getSubPlatform(platformName) {
     switch (platformName) {
-        case "Android":
+        case Android:
             {
                 return "Android";
             }
-        case "iOS":
+        case iOS:
             {
                 return "iOS";
             }
-        case "Windows":
+        case Windows:
             {
                 return "Windows64";
             }
-        case "Linux":
+        case Linux:
             {
                 return "Linux64";
             }
-        case "Windows Server":
+        case WindowsServer:
             {
                 return "WindowsServer64";
             }
-        case "Linux Server":
+        case LinuxServer:
             {
                 return "LinuxServer64";
             }
@@ -107,27 +115,27 @@ function getSubPlatform(platformName) {
 }
 function getModules(platformName) {
     switch (platformName) {
-        case "Android":
+        case Android:
             {
                 return "android";
             }
-        case "iOS":
+        case iOS:
             {
                 return "ios";
             }
-        case "Windows":
+        case Windows:
             {
                 return "windows-il2cpp";
             }
-        case "Linux":
+        case Linux:
             {
                 return "linux-il2cpp";
             }
-        case "Windows Server":
+        case WindowsServer:
             {
                 return "windows-il2cpp, windows-server";
             }
-        case "Linux Server":
+        case LinuxServer:
             {
                 return "linux-il2cpp, linux-server";
             }
