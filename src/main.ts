@@ -18,7 +18,7 @@ function run(): void
 
     for (let i=0; i < platformsList.length; i++)
     {
-      let platformName = platformsList[i].replace(/: :/g, '');
+      let platformName = platformsList[i].replace(/\s/g,'');
       core.debug(`Platform Name ${platformName} : Index${i}`);
       let platform = getPlatform(platformName);
       core.debug(`Selected Platform ${platform} : Index${i}`);
