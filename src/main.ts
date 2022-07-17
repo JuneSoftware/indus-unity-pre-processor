@@ -9,10 +9,12 @@ function run(): void
     
     let jsonObject = [];
 
+    console.log(`Number of Platforms${platformsList.length}`);
+
     for (let i=0; i < platformsList.length; i++)
     {
       let platformName = platformsList[i].replace(' ', '');
-      core.debug(`Waiting ${platformName} milliseconds ...`);
+      console.log(`Platform${platformName} : Index ${i}`);
       let platform = getPlatform(platformName);
       let subPlatform = getSubPlatform(platformName);
       let modules = getModules(platformName)
