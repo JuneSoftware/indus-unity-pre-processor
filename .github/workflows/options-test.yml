@@ -11,7 +11,7 @@ on:
         - Production
       buildTargetOne:
         type: choice
-        description: Build Target
+        description: Build Target One
         options: 
         - None
         - Android
@@ -21,7 +21,7 @@ on:
         - Linux Server
       buildTargetTwo:
         type: choice
-        description: Build Target
+        description: Build Target Two
         options: 
         - None
         - Android
@@ -31,7 +31,7 @@ on:
         - Linux Server
       buildTargetThree:
         type: choice
-        description: Build Target
+        description: Build Target Three
         options: 
         - None
         - Android
@@ -41,7 +41,7 @@ on:
         - Linux Server
       buildTargetFour:
         type: choice
-        description: Build Target
+        description: Build Target Four
         options: 
         - None
         - Android
