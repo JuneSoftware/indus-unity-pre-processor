@@ -13,6 +13,7 @@ on:
         type: choice
         description: Build Target
         options: 
+        - None
         - Android
         - iOS
         - Windows 
@@ -22,6 +23,7 @@ on:
         type: choice
         description: Build Target
         options: 
+        - None
         - Android
         - iOS
         - Windows 
@@ -31,6 +33,7 @@ on:
         type: choice
         description: Build Target
         options: 
+        - None
         - Android
         - iOS
         - Windows 
@@ -40,6 +43,7 @@ on:
         type: choice
         description: Build Target
         options: 
+        - None
         - Android
         - iOS
         - Windows 
