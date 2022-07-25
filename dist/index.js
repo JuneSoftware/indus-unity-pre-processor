@@ -63,11 +63,11 @@ function run() {
 function getMatrixItem(platformName, buildEnvironment) {
     if (platformName != 'None') {
         let platform = getPlatform(platformName);
-        let subPlatform = getSubPlatform(platformName);
+        let customPlatformName = getCustomPlatformName(platformName);
         let modules = getModules(platformName);
         let subPlatformServer = getSubPlatformServer(platformName);
         let environment = buildEnvironment;
-        let item = { platform, subPlatform, modules, subPlatformServer, environment };
+        let item = { platform, customPlatformName, modules, subPlatformServer, environment };
         return item;
     }
     return null;
@@ -101,7 +101,7 @@ function getPlatform(platformName) {
     }
     return "Android";
 }
-function getSubPlatform(platformName) {
+function getCustomPlatformName(platformName) {
     switch (platformName) {
         case Android:
             {
