@@ -35,26 +35,42 @@ const Linux = "Linux";
 const LinuxServer = "LinuxServer";
 function run() {
     try {
-        const myInput = core.getInput('buildTarget');
-        const platformsList = myInput.split(",", 10);
+        const buildEnvironment = core.getInput('buildEnvironment');
+        const buildTargetOne = core.getInput('buildTargetOne');
+        const buildTargetTwo = core.getInput('buildTargetTwo');
+        const buildTargetThree = core.getInput('buildTargetThree');
+        const buildTargetFour = core.getInput('buildTargetFour');
         let jsonObject = [];
-        for (let i = 0; i < platformsList.length; i++) {
-            let platformName = platformsList[i].replace(/\s/g, '');
-            core.debug(`Platform Name ${platformName} : Index${i}`);
-            let platform = getPlatform(platformName);
-            core.debug(`Selected Platform ${platform} : Index${i}`);
-            let subPlatform = getSubPlatform(platformName);
-            let modules = getModules(platformName);
-            let subPlatformServer = getSubPlatformServer(platformName);
-            let item = { platform, subPlatform, modules, subPlatformServer };
+        let item = getMatrixItem(buildTargetOne, buildEnvironment);
+        if (item != null)
             jsonObject.push(item);
-        }
+        item = getMatrixItem(buildTargetTwo, buildEnvironment);
+        if (item != null)
+            jsonObject.push(item);
+        item = getMatrixItem(buildTargetThree, buildEnvironment);
+        if (item != null)
+            jsonObject.push(item);
+        item = getMatrixItem(buildTargetFour, buildEnvironment);
+        if (item != null)
+            jsonObject.push(item);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     }
     catch (error) {
         if (error instanceof Error)
             core.setFailed(error.message);
     }
+}
+function getMatrixItem(platformName, buildEnvironment) {
+    if (platformName != 'None') {
+        let platform = getPlatform(platformName);
+        let subPlatform = getSubPlatform(platformName);
+        let modules = getModules(platformName);
+        let subPlatformServer = getSubPlatformServer(platformName);
+        let environment = buildEnvironment;
+        let item = { platform, subPlatform, modules, subPlatformServer, environment };
+        return item;
+    }
+    return null;
 }
 function getPlatform(platformName) {
     switch (platformName) {

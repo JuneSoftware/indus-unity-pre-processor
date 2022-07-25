@@ -3,18 +3,48 @@ name: Mixed inputs
 on:
   workflow_dispatch:
     inputs:
-      buildTarget:
+      buildEnvironment:
         type: choice
-        description: Who to greet
+        description: Build Environment
+        options:
+        - Development
+        - Production
+      buildTargetOne:
+        type: choice
+        description: Build Target
         options: 
         - Android
         - iOS
         - Windows 
         - Windows Server
         - Linux Server
-        - Android, iOS
-        - Android, iOS, Linux Server
-        - Android, iOS, Windows Server
+      buildTargetTwo:
+        type: choice
+        description: Build Target
+        options: 
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      buildTargetThree:
+        type: choice
+        description: Build Target
+        options: 
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      buildTargetFour:
+        type: choice
+        description: Build Target
+        options: 
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
 
 jobs:
   preBuilds:
@@ -27,7 +57,11 @@ jobs:
       name: Build Matrix
       id: buildMatrix
       with: 
-        buildTarget: "${{ github.event.inputs.buildTarget }}"
+        buildEnvironment: "${{ github.event.inputs.buildEnvironment }}"
+        buildTargetOne: "${{ github.event.inputs.buildTargetOne }}"
+        buildTargetTwo: "${{ github.event.inputs.buildTargetTwo }}"
+        buildTargetThree: "${{ github.event.inputs.buildTargetThree }}"
+        buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
@@ -40,13 +74,6 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform: ${{ fromJson(needs.preBuilds.outputs.result) }}
-        #[ 
-          #{ platform: "iOS", subPlatform: iOS, modules: "ios" }, 
-          #{ platform: "Win64", subPlatform: WindowsServer64, modules: "windows-il2cpp, windows-server" },
-          #{ platform: "Linux64", subPlatform: LinuxServer64, modules: "linux-il2cpp, linux-server" },
-          #{ platform: "Win64", subPlatform: Windows64, modules: "windows-il2cpp" },
-          #{ platform: "Android", subPlatform: Android, modules: "android" }
-        #]
     steps:
       - name: Check Out
         run: echo "${{ matrix.targetPlatform.platform }}" 
