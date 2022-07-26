@@ -30,9 +30,9 @@ const core = __importStar(__nccwpck_require__(186));
 const Android = "Android";
 const iOS = "iOS";
 const Windows = "Windows";
-const WindowsServer = "WindowsServer";
+const WindowsServer = "Windows Server";
 const Linux = "Linux";
-const LinuxServer = "LinuxServer";
+const LinuxServer = "Linux Server";
 function run() {
     try {
         const buildEnvironment = core.getInput('buildEnvironment');

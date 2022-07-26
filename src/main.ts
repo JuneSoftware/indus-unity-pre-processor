@@ -3,9 +3,9 @@ import * as core from '@actions/core'
 const Android = "Android";
 const iOS = "iOS";
 const Windows = "Windows";
-const WindowsServer = "WindowsServer";
+const WindowsServer = "Windows Server";
 const Linux = "Linux";
-const LinuxServer = "LinuxServer";
+const LinuxServer = "Linux Server";
 
 function run(): void
 {
