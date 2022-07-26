@@ -2,53 +2,6 @@ name: Mixed inputs
 
 on:
   workflow_dispatch:
-    inputs:
-      buildEnvironment:
-        type: choice
-        description: Build Environment
-        options:
-        - Development
-        - Production
-      buildTargetOne:
-        type: choice
-        description: Build Target One
-        options: 
-        - None
-        - Android
-        - iOS
-        - Windows 
-        - Windows Server
-        - Linux Server
-      buildTargetTwo:
-        type: choice
-        description: Build Target Two
-        options: 
-        - None
-        - Android
-        - iOS
-        - Windows 
-        - Windows Server
-        - Linux Server
-      buildTargetThree:
-        type: choice
-        description: Build Target Three
-        options: 
-        - None
-        - Android
-        - iOS
-        - Windows 
-        - Windows Server
-        - Linux Server
-      buildTargetFour:
-        type: choice
-        description: Build Target Four
-        options: 
-        - None
-        - Android
-        - iOS
-        - Windows 
-        - Windows Server
-        - Linux Server
 
 jobs:
   preBuilds:
