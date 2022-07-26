@@ -23,7 +23,7 @@ jobs:
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
     needs: preBuilds
-    name: Build for ${{ matrix.targetPlatform.subPlatform }}
+    name: Build for ${{ matrix.targetPlatform.customPlatformName }}
     runs-on: self-hosted-windows
     outputs:
       buildResult: ${{ steps.buildStep.outcome }}
