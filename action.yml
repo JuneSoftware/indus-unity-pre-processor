@@ -2,23 +2,23 @@ name: 'Build Target Pre Processor'
 description: 'To create build target matrix from selected target plaforms list'
 inputs:
   buildEnvironment:
-    required: true
+    required: false
     description: 'Build Environment'
     default: 'Development'
   buildTargetOne: 
-    required: true
+    required: false
     description: 'Build target one'
     default: 'Android'
   buildTargetTwo: 
-    required: true
+    required: false
     description: 'Build target two'
     default: 'None'
   buildTargetThree: 
-    required: true
+    required: false
     description: 'Build target three'
     default: 'None'
   buildTargetFour: 
-    required: true
+    required: false
     description: 'Build target four'
     default: 'None'
 outputs:
