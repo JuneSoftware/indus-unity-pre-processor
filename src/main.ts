@@ -11,11 +11,36 @@ function run(): void
 {
   try 
   {
-    const buildEnvironment = core.getInput('buildEnvironment');
-    const buildTargetOne = core.getInput('buildTargetOne');
-    const buildTargetTwo = core.getInput('buildTargetTwo');
-    const buildTargetThree = core.getInput('buildTargetThree');
-    const buildTargetFour = core.getInput('buildTargetFour');
+    let buildEnvironment = core.getInput('buildEnvironment');
+    let buildTargetOne = core.getInput('buildTargetOne');
+    let buildTargetTwo = core.getInput('buildTargetTwo');
+    let buildTargetThree = core.getInput('buildTargetThree');
+    let buildTargetFour = core.getInput('buildTargetFour');
+
+    if (buildEnvironment == '')
+    {
+      buildEnvironment = 'Development'
+    }
+
+    if (buildTargetOne == '')
+    {
+      buildTargetOne = 'Android'
+    }
+
+    if (buildTargetTwo == '')
+    {
+      buildTargetTwo = 'iOS'
+    }
+
+    if (buildTargetThree == '')
+    {
+      buildTargetThree = 'Windows Server'
+    }
+
+    if (buildTargetFour == '')
+    {
+      buildTargetFour = 'None'
+    }
 
     let jsonObject = [];
     
@@ -49,7 +74,7 @@ function getMatrixItem(platformName: string, buildEnvironment: string) : any
   {
     let platform = getPlatform(platformName);
     let customPlatformName = getCustomPlatformName(platformName);
-    let modules = getModules(platformName)
+    let modules = getModules(platformName);
     let subPlatformServer = getSubPlatformServer(platformName);
     let environment = buildEnvironment;
     let item = { platform, customPlatformName, modules, subPlatformServer, environment };
