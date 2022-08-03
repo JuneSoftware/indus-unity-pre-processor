@@ -41,6 +41,8 @@ function run() {
         let buildTargetThree = core.getInput('buildTargetThree');
         let buildTargetFour = core.getInput('buildTargetFour');
         let buildOS = core.getInput('os');
+        let skackData = core.getInput('slackData');
+        let slackChannel = core.getInput('slackChannel');
         if (buildEnvironment == '') {
             buildEnvironment = 'Development';
         }
@@ -57,16 +59,16 @@ function run() {
             buildTargetFour = 'None';
         }
         let jsonObject = [];
-        let item = getMatrixItem(buildTargetOne, buildEnvironment);
+        let item = getMatrixItem(buildTargetOne, buildEnvironment, skackData, slackChannel);
         if (item != null)
             jsonObject.push(item);
-        item = getMatrixItem(buildTargetTwo, buildEnvironment);
+        item = getMatrixItem(buildTargetTwo, buildEnvironment, skackData, slackChannel);
         if (item != null)
             jsonObject.push(item);
-        item = getMatrixItem(buildTargetThree, buildEnvironment);
+        item = getMatrixItem(buildTargetThree, buildEnvironment, skackData, slackChannel);
         if (item != null)
             jsonObject.push(item);
-        item = getMatrixItem(buildTargetFour, buildEnvironment);
+        item = getMatrixItem(buildTargetFour, buildEnvironment, skackData, slackChannel);
         if (item != null)
             jsonObject.push(item);
         let osObject = JSON.parse(buildOS);
@@ -78,14 +80,16 @@ function run() {
             core.setFailed(error.message);
     }
 }
-function getMatrixItem(platformName, buildEnvironment) {
+function getMatrixItem(platformName, buildEnvironment, slackData, slackChannel) {
     if (platformName != 'None') {
         let platform = getPlatform(platformName);
         let customPlatformName = getCustomPlatformName(platformName);
         let modules = getModules(platformName);
         let subPlatformServer = getSubPlatformServer(platformName);
         let environment = buildEnvironment;
-        let item = { platform, customPlatformName, modules, subPlatformServer, environment };
+        let slackDataObj = JSON.parse(slackData);
+        let slackWebHook = slackDataObj[slackChannel];
+        let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook };
         return item;
     }
     return null;

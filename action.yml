@@ -5,6 +5,10 @@ inputs:
     required: false
     description: 'Build Environment'
     default: 'Development'
+  slackChannel:
+    required: false
+    description: 'Output slack channel'
+    default: 'Public'
   buildTargetOne: 
     required: false
     description: 'Build target one'
@@ -22,9 +26,13 @@ inputs:
     description: 'Build target four'
     default: 'None'
   os: 
-    required: false
+    required: true
     description: 'Operating system for builds'
     default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
+  slackData:
+    required: true
+    description: 'Slack Channel Selection'
+    default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
 outputs:
   selectedTarget:
     description: Generated matrix

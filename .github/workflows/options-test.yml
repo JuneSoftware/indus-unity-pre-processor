@@ -9,6 +9,12 @@ on:
         options:
         - Development
         - Production
+      slackChannel:
+        type: choice
+        description: Build Environment
+        options:
+        - Public
+        - Private
       buildTargetOne:
         type: choice
         description: Build Target One
@@ -52,6 +58,9 @@ on:
       os:
         required: true
         default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
+      slackData:
+        required: true
+        default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
 
 jobs:
   preBuilds:
