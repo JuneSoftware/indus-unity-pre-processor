@@ -11,7 +11,7 @@ on:
         - Production
       slackChannel:
         type: choice
-        description: Build Environment
+        description: Slack Channel
         options:
         - Public
         - Private
