@@ -86,7 +86,7 @@ jobs:
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
-    runs-on: self-hosted-windows
+    runs-on: ${{ matrix.targetPlatform.os }}
     outputs:
       buildResult: ${{ steps.buildStep.outcome }}
     strategy:
