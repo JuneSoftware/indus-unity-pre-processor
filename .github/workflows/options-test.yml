@@ -78,6 +78,9 @@ jobs:
         buildTargetTwo: "${{ github.event.inputs.buildTargetTwo }}"
         buildTargetThree: "${{ github.event.inputs.buildTargetThree }}"
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
+        os: "${{ github.event.inputs.os }}"
+        slackChannel: "${{ github.event.inputs.slackChannel }}"
+        slackData: "${{ github.event.inputs.slackData }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
