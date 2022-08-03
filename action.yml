@@ -21,6 +21,10 @@ inputs:
     required: false
     description: 'Build target four'
     default: 'None'
+  os: 
+    required: false
+    description: 'Operating system for builds'
+    default: 'None'
 outputs:
   selectedTarget:
     description: Generated matrix
