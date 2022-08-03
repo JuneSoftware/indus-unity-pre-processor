@@ -5,10 +5,6 @@ inputs:
     required: false
     description: 'Build Environment'
     default: 'Development'
-  slackChannel:
-    required: false
-    description: 'Output slack channel'
-    default: 'Public'
   buildTargetOne: 
     required: false
     description: 'Build target one'
@@ -33,6 +29,10 @@ inputs:
     required: true
     description: 'Slack channel selection data'
     default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
+  slackChannel:
+    required: false
+    description: 'Output slack channel'
+    default: 'Public'
 outputs:
   selectedTarget:
     description: Generated matrix
