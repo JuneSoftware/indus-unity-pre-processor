@@ -82,7 +82,7 @@ jobs:
         slackChannel: "${{ github.event.inputs.slackChannel }}"
         slackData: "${{ github.event.inputs.slackData }}"
     - name: Send greeting
-      run: echo "${{ secrets[format('{0}', matrix.targetPlatform.slackWebHook)] }} ${{secrets.SLACK_WEBHOOK}}" 
+      run: echo "${{ secrets[matrix.targetPlatform.slackWebHook] }} ${{secrets.SLACK_WEBHOOK}}" 
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
