@@ -31,7 +31,7 @@ inputs:
     default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
   slackData:
     required: true
-    description: 'Slack Channel Selection'
+    description: 'Slack channel selection data'
     default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
 outputs:
   selectedTarget:
