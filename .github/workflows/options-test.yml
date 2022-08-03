@@ -13,8 +13,8 @@ on:
         type: choice
         description: Slack Channel
         options:
-        - Private
         - Public
+        - Private
       buildTargetOne:
         type: choice
         description: Build Target One
