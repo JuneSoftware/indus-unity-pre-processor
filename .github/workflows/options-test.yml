@@ -82,11 +82,11 @@ jobs:
         slackChannel: "${{ github.event.inputs.slackChannel }}"
         slackData: "${{ github.event.inputs.slackData }}"
     - name: Send greeting
-      run: echo "${{ secrets[format('{0}', steps.buildMatrix.outputs.slackWebHook)] }} - ${{secrets['SLACK_WEBHOOK']}} ${{ steps.buildMatrix.outputs.slackWebHook }}" 
+      run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
-    runs-on: ${{ matrix.targetPlatform.os }}
+    runs-on: ubuntu-latest
     outputs:
       buildResult: ${{ steps.buildStep.outcome }}
     strategy:
@@ -95,4 +95,4 @@ jobs:
         targetPlatform: ${{ fromJson(needs.preBuilds.outputs.result) }}
     steps:
       - name: Check Out
-        run: echo "${{ matrix.targetPlatform.platform }}"
+        run: echo "${{ matrix.targetPlatform.platform }} ${{ secrets[format('{0}', steps.buildMatrix.outputs.slackWebHook)] }} - ${{secrets['SLACK_WEBHOOK']}}"
