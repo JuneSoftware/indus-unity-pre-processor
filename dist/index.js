@@ -57,11 +57,6 @@ function run() {
             buildTargetFour = 'None';
         }
         let jsonObject = [];
-        let osObject = JSON.parse(buildOS);
-        console.log("Build OS");
-        console.log(osObject["Windows"]);
-        console.log(osObject["Mac"]);
-        console.log(osObject["Common"]);
         let item = getMatrixItem(buildTargetOne, buildEnvironment);
         if (item != null)
             jsonObject.push(item);
@@ -74,6 +69,8 @@ function run() {
         item = getMatrixItem(buildTargetFour, buildEnvironment);
         if (item != null)
             jsonObject.push(item);
+        let osObject = JSON.parse(buildOS);
+        jsonObject = getOS(jsonObject, osObject);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     }
     catch (error) {
@@ -208,6 +205,38 @@ function getSubPlatformServer(platformName) {
             }
     }
     return "Player";
+}
+function getOS(jsonObject, osObject) {
+    console.log(osObject["Windows"]);
+    console.log(osObject["Mac"]);
+    console.log(osObject["Common"]);
+    let containsWindows = false;
+    jsonObject.forEach(element => {
+        if (element.platform === "Win64") {
+            containsWindows = true;
+            element.os = osObject["Windows"];
+        }
+    });
+    if (jsonObject.length > 1) {
+        let excluded = false;
+        jsonObject.forEach(element => {
+            if (containsWindows) {
+                if (element.platform !== "Win64") {
+                    if (!excluded) {
+                        element.os = osObject["Mac"];
+                        excluded = true;
+                    }
+                    else {
+                        element.os = osObject["Common"];
+                    }
+                }
+            }
+            else {
+                element.os = osObject["Common"];
+            }
+        });
+    }
+    return jsonObject;
 }
 run();
 
