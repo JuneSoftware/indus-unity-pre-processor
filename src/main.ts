@@ -40,15 +40,15 @@ function run(): void {
       buildTargetFour = 'None'
     }
 
-    if (slackChannel == ''){
+    if (slackChannel == '') {
       slackChannel = "Public"
     }
 
-    if (buildOS == ''){
+    if (buildOS == '') {
       buildOS = DefaulOSObject;
     }
 
-    if (slackData == ''){
+    if (slackData == '') {
       slackData = DefaultSlackObject;
     }
 
@@ -230,25 +230,23 @@ function getOS(jsonObject: any[], osObject: any): any {
     }
   });
 
-  if (jsonObject.length > 1) {
-    let excluded = false;
-    jsonObject.forEach(element => {
-      if (containsWindows) {
-        if (element.platform !== "Win64") {
-          if (!excluded) {
-            element.os = osObject["Mac"];
-            excluded = true;
-          }
-          else {
-            element.os = osObject["Common"];
-          }
+  let excluded = false;
+  jsonObject.forEach(element => {
+    if (containsWindows) {
+      if (element.platform !== "Win64") {
+        if (!excluded) {
+          element.os = osObject["Mac"];
+          excluded = true;
+        }
+        else {
+          element.os = osObject["Common"];
         }
       }
-      else {
-        element.os = osObject["Common"];
-      }
-    });
-  }
+    }
+    else {
+      element.os = osObject["Common"];
+    }
+  });
 
   return jsonObject;
 }
