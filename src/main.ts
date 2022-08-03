@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import { json } from 'stream/consumers';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -45,8 +46,11 @@ function run(): void
 
     let jsonObject = [];
     
+    let osObject = JSON.parse(buildOS);
     console.log("Build OS")
-    console.log(buildOS)
+    console.log(osObject["Windows"]);
+    console.log(osObject["Mac"]);
+    console.log(osObject["Common"]);
 
     let item = getMatrixItem(buildTargetOne, buildEnvironment);
     if(item != null)
