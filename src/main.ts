@@ -16,6 +16,7 @@ function run(): void
     let buildTargetTwo = core.getInput('buildTargetTwo');
     let buildTargetThree = core.getInput('buildTargetThree');
     let buildTargetFour = core.getInput('buildTargetFour');
+    let buildOS = core.getInput('os');
 
     if (buildEnvironment == '')
     {
@@ -44,6 +45,8 @@ function run(): void
 
     let jsonObject = [];
     
+    console.log(buildOS)
+
     let item = getMatrixItem(buildTargetOne, buildEnvironment);
     if(item != null)
       jsonObject.push(item);
