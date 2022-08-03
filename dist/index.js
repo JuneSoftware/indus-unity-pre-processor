@@ -57,6 +57,7 @@ function run() {
             buildTargetFour = 'None';
         }
         let jsonObject = [];
+        console.log("Build OS");
         console.log(buildOS);
         let item = getMatrixItem(buildTargetOne, buildEnvironment);
         if (item != null)
