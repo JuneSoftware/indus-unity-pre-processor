@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import { json } from 'stream/consumers';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -7,6 +6,8 @@ const Windows = "Windows";
 const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
+const DefaulOSObject = '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}';
+const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 
 function run(): void {
   try {
@@ -15,9 +16,9 @@ function run(): void {
     let buildTargetTwo = core.getInput('buildTargetTwo');
     let buildTargetThree = core.getInput('buildTargetThree');
     let buildTargetFour = core.getInput('buildTargetFour');
-    let buildOS = core.getInput('os');
-    let skackData = core.getInput('slackData');
     let slackChannel = core.getInput('slackChannel');
+    let buildOS = core.getInput('os');
+    let slackData = core.getInput('slackData');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -39,21 +40,33 @@ function run(): void {
       buildTargetFour = 'None'
     }
 
+    if (slackChannel == ''){
+      slackChannel = "Public"
+    }
+
+    if (buildOS == ''){
+      buildOS = DefaulOSObject;
+    }
+
+    if (slackData == ''){
+      slackData = DefaultSlackObject;
+    }
+
     let jsonObject = [];
 
-    let item = getMatrixItem(buildTargetOne, buildEnvironment, skackData, slackChannel);
+    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetTwo, buildEnvironment, skackData, slackChannel);
+    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetThree, buildEnvironment, skackData, slackChannel);
+    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetFour, buildEnvironment, skackData, slackChannel);
+    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel);
     if (item != null)
       jsonObject.push(item);
 
@@ -67,14 +80,14 @@ function run(): void {
   }
 }
 
-function getMatrixItem(platformName: string, buildEnvironment: string, slackData : string, slackChannel : string): any {
+function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string): any {
   if (platformName != 'None') {
     let platform = getPlatform(platformName);
     let customPlatformName = getCustomPlatformName(platformName);
     let modules = getModules(platformName);
     let subPlatformServer = getSubPlatformServer(platformName);
     let environment = buildEnvironment;
-    
+
     let slackDataObj = JSON.parse(slackData);
     let slackWebHook = slackDataObj[slackChannel]
     let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook };
@@ -231,8 +244,8 @@ function getOS(jsonObject: any[], osObject: any): any {
           }
         }
       }
-      else{
-        element.os = osObject["Common"];   
+      else {
+        element.os = osObject["Common"];
       }
     });
   }
