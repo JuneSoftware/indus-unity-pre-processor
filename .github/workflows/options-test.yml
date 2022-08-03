@@ -95,4 +95,4 @@ jobs:
         targetPlatform: ${{ fromJson(needs.preBuilds.outputs.result) }}
     steps:
       - name: Check Out
-        run: echo "${{ matrix.targetPlatform.platform }}" 
+        run: echo "${{ matrix.targetPlatform.platform }} ${{ secrets[format('{0}_A', matrix.targetPlatform.slackWebHook)] }} "
