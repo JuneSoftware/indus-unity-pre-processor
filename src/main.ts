@@ -75,6 +75,8 @@ function run(): void {
     let osObject = JSON.parse(buildOS);
     jsonObject = getOS(jsonObject, osObject);
 
+    core.setOutput('selectedTarget', JSON.stringify(jsonObject));
+
     const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
   
@@ -100,8 +102,6 @@ function run(): void {
     fs.writeFileSync(settingsFilePath, modifiedFile);
   
     console.log(`Updated Build number ${buildNumber}`);
-
-    core.setOutput('selectedTarget', JSON.stringify(jsonObject));
   }
   catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

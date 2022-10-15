@@ -89,6 +89,7 @@ function run() {
             jsonObject.push(item);
         let osObject = JSON.parse(buildOS);
         jsonObject = getOS(jsonObject, osObject);
+        core.setOutput('selectedTarget', JSON.stringify(jsonObject));
         const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
         const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
@@ -106,7 +107,6 @@ function run() {
         modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
         fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
         console.log(`Updated Build number ${buildNumber}`);
-        core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     }
     catch (error) {
         if (error instanceof Error)
