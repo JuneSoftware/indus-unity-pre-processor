@@ -25,8 +25,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const fs_1 = __importDefault(__nccwpck_require__(747));
+const os_1 = __nccwpck_require__(87);
 const Android = "Android";
 const iOS = "iOS";
 const Windows = "Windows";
@@ -84,6 +89,23 @@ function run() {
             jsonObject.push(item);
         let osObject = JSON.parse(buildOS);
         jsonObject = getOS(jsonObject, osObject);
+        const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
+        const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
+        const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
+        const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
+        let buildNumberMatch = regexOne.exec(settingsFile);
+        let regexTwoMatch = regexTwo.exec(settingsFile);
+        if (!buildNumberMatch)
+            return;
+        if (!regexTwoMatch)
+            return;
+        let modifiedFile = settingsFile;
+        let buildNumber = parseInt(buildNumberMatch[1]);
+        buildNumber++;
+        modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
+        modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
+        fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
+        console.log(`Updated Build number ${buildNumber}`);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     }
     catch (error) {
