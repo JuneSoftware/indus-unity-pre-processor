@@ -107,6 +107,7 @@ function run() {
         modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
         fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
         console.log(`Updated Build number ${buildNumber}`);
+        core.setOutput('build-number', buildNumber);
     }
     catch (error) {
         if (error instanceof Error)

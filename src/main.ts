@@ -101,7 +101,7 @@ function run(): void {
     
     fs.writeFileSync(settingsFilePath, modifiedFile);
   
-    console.log(`Updated Build number ${buildNumber}`);
+    core.setOutput('build-number', buildNumber);
   }
   catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
