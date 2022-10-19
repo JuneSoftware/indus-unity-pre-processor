@@ -93,7 +93,7 @@ function run() {
         const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
         const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
-        const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
+        const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.*)${os_1.EOL}    iPhone: (.*)${os_1.EOL}    tvOS: (.*)`, 'gm');
         let buildNumberMatch = regexOne.exec(settingsFile);
         let regexTwoMatch = regexTwo.exec(settingsFile);
         if (!buildNumberMatch)
@@ -106,7 +106,6 @@ function run() {
         modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
         modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
         fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
-        console.log(`Updated Build number ${buildNumber}`);
         core.setOutput('build-number', buildNumber);
     }
     catch (error) {
