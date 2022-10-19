@@ -80,7 +80,7 @@ function run(): void {
     const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
   
-    const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
+    const regexOne = new RegExp('AndroidBundleVersionCode: (.*)', 'g');
     const regexTwo = new RegExp(`buildNumber:${EOL}    Standalone: (.*)${EOL}    iPhone: (.*)${EOL}    tvOS: (.*)`, 'gm');
   
     let buildNumberMatch = regexOne.exec(settingsFile);

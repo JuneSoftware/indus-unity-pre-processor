@@ -151,11 +151,11 @@ PlayerSettings:
     Standalone: com.JuneGaming.IndusBR
     iPhone: com.JuneGaming.IndusBR
   buildNumber:
-    Standalone: 1
-    iPhone: 1
-    tvOS: 1
+    Standalone: 21
+    iPhone: 21
+    tvOS: 21
   overrideDefaultApplicationIdentifier: 0
-  AndroidBundleVersionCode: 1
+  AndroidBundleVersionCode: 21
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1

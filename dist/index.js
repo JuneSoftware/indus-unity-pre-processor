@@ -92,7 +92,7 @@ function run() {
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
         const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
-        const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
+        const regexOne = new RegExp('AndroidBundleVersionCode: (.*)', 'g');
         const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.*)${os_1.EOL}    iPhone: (.*)${os_1.EOL}    tvOS: (.*)`, 'gm');
         let buildNumberMatch = regexOne.exec(settingsFile);
         let regexTwoMatch = regexTwo.exec(settingsFile);
