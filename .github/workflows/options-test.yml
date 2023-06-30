@@ -2,65 +2,68 @@ name: Mixed inputs
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   buildEnvironment:
-    #     type: choice
-    #     description: Build Environment
-    #     options:
-    #     - Development
-    #     - Production
-    #   slackChannel:
-    #     type: choice
-    #     description: Slack Channel
-    #     options:
-    #     - Public
-    #     - Private
-    #   buildTargetOne:
-    #     type: choice
-    #     description: Build Target One
-    #     options: 
-    #     - None
-    #     - Android
-    #     - iOS
-    #     - Windows 
-    #     - Windows Server
-    #     - Linux Server
-    #   buildTargetTwo:
-    #     type: choice
-    #     description: Build Target Two
-    #     options: 
-    #     - None
-    #     - Android
-    #     - iOS
-    #     - Windows 
-    #     - Windows Server
-    #     - Linux Server
-    #   buildTargetThree:
-    #     type: choice
-    #     description: Build Target Three
-    #     options: 
-    #     - None
-    #     - Android
-    #     - iOS
-    #     - Windows 
-    #     - Windows Server
-    #     - Linux Server
-    #   buildTargetFour:
-    #     type: choice
-    #     description: Build Target Four
-    #     options: 
-    #     - None
-    #     - Android
-    #     - iOS
-    #     - Windows 
-    #     - Windows Server
-    #     - Linux Server
-    #   os:
-    #     required: true
-    #     default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
-    #   slackData:
-    #     required: true
-    #     default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
+    inputs:
+      buildEnvironment:
+        type: choice
+        description: Build Environment
+        options:
+        - Development
+        - Production
+      slackChannel:
+        type: choice
+        description: Slack Channel
+        options:
+        - Public
+        - Private
+      buildTargetOne:
+        type: choice
+        description: Build Target One
+        options: 
+        - None
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      buildTargetTwo:
+        type: choice
+        description: Build Target Two
+        options: 
+        - None
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      buildTargetThree:
+        type: choice
+        description: Build Target Three
+        options: 
+        - None
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      buildTargetFour:
+        type: choice
+        description: Build Target Four
+        options: 
+        - None
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+      os:
+        required: true
+        default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
+      slackData:
+        required: true
+        default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
+      settingsFilePath:
+        required: true
+        default: 'ProjectSettings/ProjectSettings.asset'
 
 jobs:
   preBuilds:
