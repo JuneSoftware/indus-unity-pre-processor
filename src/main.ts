@@ -21,6 +21,7 @@ function run(): void {
     let slackChannel = core.getInput('slackChannel');
     let buildOS = core.getInput('os');
     let slackData = core.getInput('slackData');
+    let settingsFilePath = core.getInput('settingsFilePath');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -77,7 +78,6 @@ function run(): void {
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));
 
-    const settingsFilePath = 'ProjectSettings/ProjectSettings.asset';
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
   
     const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');

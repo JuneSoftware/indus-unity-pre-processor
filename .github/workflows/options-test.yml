@@ -81,6 +81,7 @@ jobs:
         os: "${{ github.event.inputs.os }}"
         slackChannel: "${{ github.event.inputs.slackChannel }}"
         slackData: "${{ github.event.inputs.slackData }}"
+        settingsFilePath: "${{ github.event.inputs.settingsFilePath }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
   build: #To create the builds
