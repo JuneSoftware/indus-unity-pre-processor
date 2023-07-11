@@ -91,7 +91,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Project Settings
-        path: ProjectSettings\ProjectSettings.asset
+        path: ProjectSettings/ProjectSettings.asset
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
