@@ -80,7 +80,7 @@ function run(): void {
 
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
   
-    const regexOne = new RegExp(/AndroidBundleVersionCode: (.)/g);
+    const regexOne = new RegExp(/AndroidBundleVersionCode: (.*)/g);
     const regexTwo = new RegExp(/buildNumber:(\r?\n|\r)(( {4}.*(\r?\n|\r))*)(?=  \w+)/g);
   
     let buildNumberMatch = regexOne.exec(settingsFile);

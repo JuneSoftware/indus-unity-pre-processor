@@ -91,7 +91,7 @@ function run() {
         jsonObject = getOS(jsonObject, osObject);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
-        const regexOne = new RegExp(/AndroidBundleVersionCode: (.)/g);
+        const regexOne = new RegExp(/AndroidBundleVersionCode: (.*)/g);
         const regexTwo = new RegExp(/buildNumber:(\r?\n|\r)(( {4}.*(\r?\n|\r))*)(?=  \w+)/g);
         let buildNumberMatch = regexOne.exec(settingsFile);
         let regexTwoMatch = regexTwo.exec(settingsFile);
