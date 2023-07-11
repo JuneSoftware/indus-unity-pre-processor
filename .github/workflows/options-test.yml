@@ -87,6 +87,11 @@ jobs:
         settingsFilePath: "${{ github.event.inputs.settingsFilePath }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
+    - name: Upload Project Settings
+      uses: actions/upload-artifact@v3
+      with:
+        name: Project Settings
+        path: ProjectSettings\ProjectSettings.asset
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
