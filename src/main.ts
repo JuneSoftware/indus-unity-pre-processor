@@ -80,12 +80,12 @@ function run(): void {
 
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
   
-    const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
-    const regexTwo = new RegExp(`buildNumber:${EOL}    Standalone: (.)${EOL}    iPhone: (.)${EOL}    tvOS: (.)`, 'gm');
+    const regexOne = new RegExp(/AndroidBundleVersionCode: (.)/g);
+    const regexTwo = new RegExp(/buildNumber:(\r?\n|\r)(( {4}.*(\r?\n|\r))*)(?=  \w+)/g);
   
     let buildNumberMatch = regexOne.exec(settingsFile);
     let regexTwoMatch = regexTwo.exec(settingsFile);
-  
+
     if(!buildNumberMatch)
       return;
   
@@ -96,12 +96,13 @@ function run(): void {
     let buildNumber = parseInt(buildNumberMatch[1]); 
     buildNumber++;
   
+    let updatedSection = regexTwoMatch[0].replace(/(?<=: )\d+/g, buildNumber.toString());
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-    modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${EOL}    Standalone: ${buildNumber}${EOL}    iPhone: ${buildNumber}${EOL}    tvOS: ${buildNumber}`)
-    
-    fs.writeFileSync(settingsFilePath, modifiedFile);
+    modifiedFile = modifiedFile.replace(regexTwo, updatedSection);
   
     core.setOutput('build-number', buildNumber);
+
+    fs.writeFileSync(settingsFilePath, modifiedFile);
   }
   catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

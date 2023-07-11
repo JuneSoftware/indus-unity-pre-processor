@@ -31,7 +31,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const fs_1 = __importDefault(__nccwpck_require__(747));
-const os_1 = __nccwpck_require__(87);
 const Android = "Android";
 const iOS = "iOS";
 const Windows = "Windows";
@@ -92,8 +91,8 @@ function run() {
         jsonObject = getOS(jsonObject, osObject);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
-        const regexOne = new RegExp('AndroidBundleVersionCode: (.)', 'g');
-        const regexTwo = new RegExp(`buildNumber:${os_1.EOL}    Standalone: (.)${os_1.EOL}    iPhone: (.)${os_1.EOL}    tvOS: (.)`, 'gm');
+        const regexOne = new RegExp(/AndroidBundleVersionCode: (.)/g);
+        const regexTwo = new RegExp(/buildNumber:(\r?\n|\r)(( {4}.*(\r?\n|\r))*)(?=  \w+)/g);
         let buildNumberMatch = regexOne.exec(settingsFile);
         let regexTwoMatch = regexTwo.exec(settingsFile);
         if (!buildNumberMatch)
@@ -103,10 +102,11 @@ function run() {
         let modifiedFile = settingsFile;
         let buildNumber = parseInt(buildNumberMatch[1]);
         buildNumber++;
+        let updatedSection = regexTwoMatch[0].replace(/(?<=: )\d+/g, buildNumber.toString());
         modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-        modifiedFile = modifiedFile.replace(regexTwoMatch[0], `buildNumber:${os_1.EOL}    Standalone: ${buildNumber}${os_1.EOL}    iPhone: ${buildNumber}${os_1.EOL}    tvOS: ${buildNumber}`);
-        fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
+        modifiedFile = modifiedFile.replace(regexTwo, updatedSection);
         core.setOutput('build-number', buildNumber);
+        fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
     }
     catch (error) {
         if (error instanceof Error)
