@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
 import fs from 'fs';
-import { EOL } from 'os';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -8,7 +7,6 @@ const Windows = "Windows";
 const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
-const DefaulOSObject = '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}';
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 
 function run(): void {
@@ -19,7 +17,6 @@ function run(): void {
     let buildTargetThree = core.getInput('buildTargetThree');
     let buildTargetFour = core.getInput('buildTargetFour');
     let slackChannel = core.getInput('slackChannel');
-    let buildOS = core.getInput('os');
     let slackData = core.getInput('slackData');
     let settingsFilePath = core.getInput('settingsFilePath');
 
@@ -45,10 +42,6 @@ function run(): void {
 
     if (slackChannel == '') {
       slackChannel = "Public"
-    }
-
-    if (buildOS == '') {
-      buildOS = DefaulOSObject;
     }
 
     if (slackData == '') {

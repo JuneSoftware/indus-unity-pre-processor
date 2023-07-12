@@ -25,10 +25,6 @@ inputs:
     required: false
     description: 'Build target four'
     default: 'None'
-  os: 
-    required: true
-    description: 'Operating system for builds'
-    default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
   slackData:
     required: true
     description: 'Slack channel selection data'

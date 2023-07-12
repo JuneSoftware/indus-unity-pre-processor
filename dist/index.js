@@ -37,7 +37,6 @@ const Windows = "Windows";
 const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
-const DefaulOSObject = '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}';
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 function run() {
     try {
@@ -47,7 +46,6 @@ function run() {
         let buildTargetThree = core.getInput('buildTargetThree');
         let buildTargetFour = core.getInput('buildTargetFour');
         let slackChannel = core.getInput('slackChannel');
-        let buildOS = core.getInput('os');
         let slackData = core.getInput('slackData');
         let settingsFilePath = core.getInput('settingsFilePath');
         if (buildEnvironment == '') {
@@ -67,9 +65,6 @@ function run() {
         }
         if (slackChannel == '') {
             slackChannel = "Public";
-        }
-        if (buildOS == '') {
-            buildOS = DefaulOSObject;
         }
         if (slackData == '') {
             slackData = DefaultSlackObject;
