@@ -73,9 +73,6 @@ function run(): void {
     if (item != null)
       jsonObject.push(item);
 
-    let osObject = JSON.parse(buildOS);
-    jsonObject = getOS(jsonObject, osObject);
-
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));
 
     const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
@@ -244,40 +241,6 @@ function getSubPlatformServer(platformName: string): string {
       }
   }
   return "Player";
-}
-
-function getOS(jsonObject: any[], osObject: any): any {
-  console.log(osObject["Windows"]);
-  console.log(osObject["Mac"]);
-  console.log(osObject["Common"]);
-
-  let containsWindows = false;
-  jsonObject.forEach(element => {
-    if (element.platform === "Win64") {
-      containsWindows = true;
-      element.os = osObject["Windows"];
-    }
-  });
-
-  let excluded = false;
-  jsonObject.forEach(element => {
-    if (containsWindows) {
-      if (element.platform !== "Win64") {
-        if (!excluded) {
-          element.os = osObject["Mac"];
-          excluded = true;
-        }
-        else {
-          element.os = osObject["Common"];
-        }
-      }
-    }
-    else {
-      element.os = osObject["Common"];
-    }
-  });
-
-  return jsonObject;
 }
 
 run()

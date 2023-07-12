@@ -87,8 +87,6 @@ function run() {
         item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel);
         if (item != null)
             jsonObject.push(item);
-        let osObject = JSON.parse(buildOS);
-        jsonObject = getOS(jsonObject, osObject);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
         const settingsFile = fs_1.default.readFileSync(settingsFilePath, 'utf8');
         const regexOne = new RegExp(/AndroidBundleVersionCode: (.*)/g);
@@ -242,36 +240,6 @@ function getSubPlatformServer(platformName) {
             }
     }
     return "Player";
-}
-function getOS(jsonObject, osObject) {
-    console.log(osObject["Windows"]);
-    console.log(osObject["Mac"]);
-    console.log(osObject["Common"]);
-    let containsWindows = false;
-    jsonObject.forEach(element => {
-        if (element.platform === "Win64") {
-            containsWindows = true;
-            element.os = osObject["Windows"];
-        }
-    });
-    let excluded = false;
-    jsonObject.forEach(element => {
-        if (containsWindows) {
-            if (element.platform !== "Win64") {
-                if (!excluded) {
-                    element.os = osObject["Mac"];
-                    excluded = true;
-                }
-                else {
-                    element.os = osObject["Common"];
-                }
-            }
-        }
-        else {
-            element.os = osObject["Common"];
-        }
-    });
-    return jsonObject;
 }
 run();
 
