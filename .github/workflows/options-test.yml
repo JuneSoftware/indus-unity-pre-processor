@@ -55,9 +55,6 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
-      os:
-        required: true
-        default: '{"Windows":"self-hosted-windows-test","Mac":"self-hosted-mac-test","Common":"self-hosted-build-runner"}'
       slackData:
         required: true
         default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
