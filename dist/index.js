@@ -98,7 +98,7 @@ function run() {
         let updatedSection = regexTwoMatch[0].replace(/(?<=: )\d+/g, buildNumber.toString());
         modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
         modifiedFile = modifiedFile.replace(regexTwo, updatedSection);
-        core.setOutput('build-number', buildNumber);
+        core.setOutput('buildNumber', buildNumber);
         fs_1.default.writeFileSync(settingsFilePath, modifiedFile);
     }
     catch (error) {

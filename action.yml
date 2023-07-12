@@ -37,6 +37,8 @@ inputs:
 outputs:
   selectedTarget:
     description: Generated matrix
+  buildNumber:
+    description: Build Number
     
 runs:
   using: 'node12'
