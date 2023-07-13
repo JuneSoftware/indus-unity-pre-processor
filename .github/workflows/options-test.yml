@@ -62,6 +62,8 @@ on:
         required: true
         default: 'ProjectSettings/ProjectSettings.asset'
 
+run-name: Running ${{ inputs.buildTargetOne }} by @${{ github.actor }}
+
 jobs:
   preBuilds:
     runs-on: ubuntu-latest
