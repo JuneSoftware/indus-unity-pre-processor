@@ -16,6 +16,10 @@ function run(): void {
     let buildTargetTwo = core.getInput('buildTargetTwo');
     let buildTargetThree = core.getInput('buildTargetThree');
     let buildTargetFour = core.getInput('buildTargetFour');
+    let buildConfigOne = core.getInput('buildConfigOne');
+    let buildConfigTwo = core.getInput('buildConfigTwo');
+    let buildConfigThree = core.getInput('buildConfigThree');
+    let buildConfigFour = core.getInput('buildConfigFour');
     let slackChannel = core.getInput('slackChannel');
     let slackData = core.getInput('slackData');
     let settingsFilePath = core.getInput('settingsFilePath');
@@ -50,19 +54,19 @@ function run(): void {
 
     let jsonObject = [];
 
-    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel);
+    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, buildConfigOne);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel);
+    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, buildConfigTwo);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel);
+    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, buildConfigThree);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel);
+    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, buildConfigFour);
     if (item != null)
       jsonObject.push(item);
 
@@ -99,7 +103,7 @@ function run(): void {
   }
 }
 
-function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string): any {
+function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string, buildConfig: string): any {
   if (platformName != 'None') {
     let platform = getPlatform(platformName);
     let customPlatformName = getCustomPlatformName(platformName);
@@ -109,7 +113,7 @@ function getMatrixItem(platformName: string, buildEnvironment: string, slackData
 
     let slackDataObj = JSON.parse(slackData);
     let slackWebHook = slackDataObj[slackChannel]
-    let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook };
+    let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, buildConfig };
     return item;
   }
 
