@@ -19,6 +19,7 @@ function run(): void {
     let slackChannel = core.getInput('slackChannel');
     let slackData = core.getInput('slackData');
     let settingsFilePath = core.getInput('settingsFilePath');
+    let buildNumberStepSize = core.getInput('buildNumberStepSize');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -84,7 +85,8 @@ function run(): void {
   
     let modifiedFile = settingsFile;
     let buildNumber = parseInt(buildNumberMatch[1]); 
-    buildNumber++;
+    let stepSize = parseInt(buildNumberStepSize);
+    buildNumber += stepSize;
   
     let updatedSection = regexTwoMatch[0].replace(/(?<=: )\d+/g, buildNumber.toString());
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);

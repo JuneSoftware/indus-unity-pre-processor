@@ -33,6 +33,10 @@ inputs:
     required: true
     description: 'Project settings file path'
     default: 'ProjectSettings/ProjectSettings.asset'
+  buildNumberStepSize:
+    required: true
+    description: 'The fixed amount by which the build number is increased'
+    default: '1'
 
 outputs:
   selectedTarget:
