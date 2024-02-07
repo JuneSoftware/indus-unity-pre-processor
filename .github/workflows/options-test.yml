@@ -84,6 +84,7 @@ jobs:
         slackChannel: "${{ github.event.inputs.slackChannel }}"
         slackData: "${{ github.event.inputs.slackData }}"
         settingsFilePath: "${{ github.event.inputs.settingsFilePath }}"
+        buildNumberStepSize: 100
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
     - name: Upload Project Settings
