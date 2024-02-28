@@ -38,7 +38,7 @@ const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
-const DefaultGCPKeyObject = '{"Development":"SERVICE_ACCOUNT_KEY_DEV","Staging":"SERVICE_ACCOUNT_KEY_STAGING","Release":"SERVICE_ACCOUNT_KEY_STAGING","Production":"SERVICE_ACCOUNT_KEY_STAGING"}';
+const DefaultGCPKeyObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"}}';
 function run() {
     try {
         let buildEnvironment = core.getInput('buildEnvironment');
@@ -135,8 +135,9 @@ function getMatrixItem(platformName, buildEnvironment, slackData, slackChannel, 
         let slackDataObj = JSON.parse(slackData);
         let slackWebHook = slackDataObj[slackChannel];
         let gcpKeyDataObj = JSON.parse(gcpKeyData);
-        let gcpKey = gcpKeyDataObj[buildEnvironment];
-        let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, gcpKey };
+        let gcpKey = gcpKeyDataObj[buildEnvironment].GCPKey;
+        let gcpURL = gcpKeyDataObj[buildEnvironment].GCPURL;
+        let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, gcpKey, gcpURL };
         return item;
     }
     return null;
