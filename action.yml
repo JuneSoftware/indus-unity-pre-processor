@@ -37,12 +37,18 @@ inputs:
     required: true
     description: 'The fixed amount by which the build number is increased'
     default: '1'
+  gcpKeyData:
+    required: true
+    description: 'GCP Keys list for build storage'
+    default: '{"Development":"SERVICE_ACCOUNT_KEY_DEV","Staging":"SERVICE_ACCOUNT_KEY_STAGING","Release":"SERVICE_ACCOUNT_KEY_STAGING","Production":"SERVICE_ACCOUNT_KEY_STAGING"}'
 
 outputs:
   selectedTarget:
     description: Generated matrix
   buildNumber:
     description: Build Number
+  buildVersion:
+    description: Build Version String
     
 runs:
   using: 'node12'
