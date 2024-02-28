@@ -8,7 +8,7 @@ const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
-const DefaultGCPKeyObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING"}}';
+const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"}}';
 
 function run(): void {
   try {
@@ -21,7 +21,7 @@ function run(): void {
     let slackData = core.getInput('slackData');
     let settingsFilePath = core.getInput('settingsFilePath');
     let buildNumberStepSize = core.getInput('buildNumberStepSize');
-    let gcpKeyData = core.getInput('gcpKeyData');
+    let evironmentData = core.getInput('evironmentData');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -59,25 +59,25 @@ function run(): void {
       buildNumberStepSize = '1';
     }
 
-    if(gcpKeyData == ''){
-      gcpKeyData = DefaultGCPKeyObject;
+    if(evironmentData == ''){
+      evironmentData = DefaultEvironmentDataObject;
     }
 
     let jsonObject = [];
 
-    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, gcpKeyData);
+    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, gcpKeyData);
+    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, gcpKeyData);
+    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, gcpKeyData);
+    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData);
     if (item != null)
       jsonObject.push(item);
 
@@ -122,7 +122,7 @@ function run(): void {
   }
 }
 
-function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string, gcpKeyData: string): any {
+function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string, evironmentDataJSON: string): any {
   if (platformName != 'None') {
     let platform = getPlatform(platformName);
     let customPlatformName = getCustomPlatformName(platformName);
@@ -132,10 +132,9 @@ function getMatrixItem(platformName: string, buildEnvironment: string, slackData
 
     let slackDataObj = JSON.parse(slackData);
     let slackWebHook = slackDataObj[slackChannel]
-    let gcpKeyDataObj = JSON.parse(gcpKeyData);
-    let gcpKey = gcpKeyDataObj[buildEnvironment].GCPKey;
-    let gcpURL = gcpKeyDataObj[buildEnvironment].GCPURL;
-    let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, gcpKey, gcpURL };
+    let evironmentDataObj = JSON.parse(evironmentDataJSON);
+    let evironmentData = evironmentDataObj[buildEnvironment];
+    let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, evironmentData };
     return item;
   }
 
