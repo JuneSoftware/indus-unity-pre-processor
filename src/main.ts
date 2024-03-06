@@ -9,6 +9,7 @@ const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"}}';
+const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 
 function run(): void {
   try {
@@ -22,6 +23,8 @@ function run(): void {
     let settingsFilePath = core.getInput('settingsFilePath');
     let buildNumberStepSize = core.getInput('buildNumberStepSize');
     let evironmentData = core.getInput('evironmentData');
+    let buildConfig = core.getInput('buildConfig');
+    let buildConfigData = core.getInput('buildConfigData');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -59,25 +62,33 @@ function run(): void {
       buildNumberStepSize = '1';
     }
 
-    if(evironmentData == ''){
+    if (evironmentData == '') {
       evironmentData = DefaultEvironmentDataObject;
+    }
+
+    if (buildConfig == '') {
+      buildConfig = 'Default';
+    }
+
+    if (buildConfigData == '') {
+      buildConfigData = DefaultBuildConfigDataObject;
     }
 
     let jsonObject = [];
 
-    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData);
+    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData);
+    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData);
+    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
     if (item != null)
       jsonObject.push(item);
 
-    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData);
+    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
     if (item != null)
       jsonObject.push(item);
 
@@ -122,20 +133,20 @@ function run(): void {
   }
 }
 
-function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string, evironmentDataJSON: string): any {
+function getMatrixItem(platformName: string, buildEnvironment: string, slackData: string, slackChannel: string, evironmentDataJSON: string, buildConfig: string, buildConfigDataJSON: string): any {
   if (platformName != 'None') {
     let platform = getPlatform(platformName);
     let customPlatformName = getCustomPlatformName(platformName);
     let modules = getModules(platformName);
     let subPlatformServer = getSubPlatformServer(platformName);
-    let environment = buildEnvironment;
 
     let slackDataObj = JSON.parse(slackData);
     let slackWebHook = slackDataObj[slackChannel]
-    let evironmentDataObj = JSON.parse(evironmentDataJSON);
-    let evironmentData = evironmentDataObj[buildEnvironment];
-    let item = { platform, customPlatformName, modules, subPlatformServer, environment, slackWebHook, evironmentData };
-    return item;
+    let environmentDataObj = JSON.parse(evironmentDataJSON);
+    let environmentData = environmentDataObj[buildEnvironment];
+    let buildConfigDataObj = JSON.parse(buildConfigDataJSON);
+    let buildConfigData = buildConfigDataObj[buildConfig];
+    return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData };
   }
 
   return null;
