@@ -136,7 +136,7 @@ const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
-const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"}}';
+const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -152,6 +152,8 @@ function run() {
             let evironmentData = core.getInput('evironmentData');
             let buildConfig = core.getInput('buildConfig');
             let buildConfigData = core.getInput('buildConfigData');
+            let overrideBuildNumber = core.getInput('overrideBuildNumber');
+            let customBuildNumber = core.getInput('customBuildNumber');
             if (buildEnvironment == '') {
                 buildEnvironment = 'Development';
             }
@@ -198,7 +200,8 @@ function run() {
             item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
             if (item != null)
                 jsonObject.push(item);
-            const buildNumber = yield (0, buildNumber_1.incrementBuildNumber)(Number.parseInt(buildNumberStepSize));
+            const incrementedBuildNumber = yield (0, buildNumber_1.incrementBuildNumber)(Number.parseInt(buildNumberStepSize));
+            const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
             core.setOutput('selectedTarget', JSON.stringify(jsonObject));
             core.setOutput('buildNumber', buildNumber);
         }
