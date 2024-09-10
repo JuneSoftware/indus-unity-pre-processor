@@ -29,10 +29,6 @@ inputs:
     required: true
     description: 'Slack channel selection data'
     default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
-  settingsFilePath:
-    required: true
-    description: 'Project settings file path'
-    default: 'ProjectSettings/ProjectSettings.asset'
   buildNumberStepSize:
     required: true
     description: 'The fixed amount by which the build number is increased'
@@ -49,14 +45,23 @@ inputs:
     required: true
     description: 'List of build of configs'
     default: '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}'
+  buildNumberAPIKey:
+    required: true
+    description: 'Build number API key'
+  overrideBuildNumber:
+    required: true
+    description: 'Enable overriding build number'
+    default: false
+  customBuildNumber:
+    required: true
+    description: 'Custom build number'
+    default: false
 
 outputs:
   selectedTarget:
     description: Generated matrix
   buildNumber:
     description: Build Number
-  buildVersion:
-    description: Build Version String
     
 runs:
   using: 'node12'

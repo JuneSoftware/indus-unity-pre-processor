@@ -55,12 +55,16 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
-      slackData:
+      overrideBuildNumber:
+        description: 'Override build number'
+        default: false
         required: true
-        default: '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}'
-      settingsFilePath:
+        type: boolean
+      customBuildNumber:
+        description: 'Custom build number'
+        default: "0"
         required: true
-        default: 'ProjectSettings/ProjectSettings.asset'
+        type: string
 
 run-name: Running ${{ inputs.buildTargetOne }} by @${{ github.actor }}
 
@@ -80,11 +84,10 @@ jobs:
         buildTargetTwo: "${{ github.event.inputs.buildTargetTwo }}"
         buildTargetThree: "${{ github.event.inputs.buildTargetThree }}"
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
-        os: "${{ github.event.inputs.os }}"
-        slackChannel: "${{ github.event.inputs.slackChannel }}"
-        slackData: "${{ github.event.inputs.slackData }}"
-        settingsFilePath: "${{ github.event.inputs.settingsFilePath }}"
         buildNumberStepSize: 100
+        buildNumberAPIKey: "${{ secrets.BUILD_NUMBER_API_KEY }}"
+        overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
+        customBuildNumber: "${{ github.event.inputs.customBuildNumber }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
     - name: Upload Project Settings
