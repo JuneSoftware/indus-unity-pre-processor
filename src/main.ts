@@ -9,7 +9,7 @@ const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
-const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"}}';
+const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 
 async function run(): Promise<void> {
