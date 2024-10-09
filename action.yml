@@ -25,6 +25,10 @@ inputs:
     required: false
     description: 'Build target four'
     default: 'None'
+  buildTargetFive: 
+    required: false
+    description: 'Build target five'
+    default: 'None'
   slackData:
     required: true
     description: 'Slack channel selection data'
