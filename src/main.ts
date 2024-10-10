@@ -199,6 +199,7 @@ function getCustomPlatformName(platformName: string): string {
 function getModules(platformName: string): string {
   switch (platformName) {
     case Android:
+    case PlayStore:
       {
         return "android";
       }
@@ -221,10 +222,6 @@ function getModules(platformName: string): string {
     case LinuxServer:
       {
         return "linux-il2cpp, linux-server";
-      }
-    case PlayStore:
-      {
-        return "android-play-store";
       }
   }
   return "android";
