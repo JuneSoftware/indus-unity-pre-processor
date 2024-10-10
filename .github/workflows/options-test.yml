@@ -8,6 +8,7 @@ on:
         description: Build Environment
         options:
         - Development
+        - Staging
         - Production
       slackChannel:
         type: choice
@@ -25,6 +26,7 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
+        - Play Store
       buildTargetTwo:
         type: choice
         description: Build Target Two
@@ -35,6 +37,7 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
+        - Play Store
       buildTargetThree:
         type: choice
         description: Build Target Three
@@ -45,6 +48,7 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
+        - Play Store
       buildTargetFour:
         type: choice
         description: Build Target Four
@@ -55,6 +59,18 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
+        - Play Store
+      buildTargetFive:
+        type: choice
+        description: Build Target Five
+        options: 
+        - None
+        - Android
+        - iOS
+        - Windows 
+        - Windows Server
+        - Linux Server
+        - Play Store
       overrideBuildNumber:
         description: 'Override build number'
         default: false
@@ -84,6 +100,7 @@ jobs:
         buildTargetTwo: "${{ github.event.inputs.buildTargetTwo }}"
         buildTargetThree: "${{ github.event.inputs.buildTargetThree }}"
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
+        buildTargetFive: "${{ github.event.inputs.buildTargetFive }}"
         buildNumberStepSize: 100
         buildNumberAPIKey: "${{ secrets.BUILD_NUMBER_API_KEY }}"
         overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
