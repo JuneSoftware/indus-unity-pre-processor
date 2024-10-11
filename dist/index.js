@@ -8,7 +8,11 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -37,8 +41,9 @@ const Windows = "Windows";
 const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
+const PlayStore = "Play Store";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
-const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"}}';
+const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 function run() {
     try {
@@ -47,6 +52,7 @@ function run() {
         let buildTargetTwo = core.getInput('buildTargetTwo');
         let buildTargetThree = core.getInput('buildTargetThree');
         let buildTargetFour = core.getInput('buildTargetFour');
+        let buildTargetFive = core.getInput('buildTargetFive');
         let slackChannel = core.getInput('slackChannel');
         let slackData = core.getInput('slackData');
         let settingsFilePath = core.getInput('settingsFilePath');
@@ -68,6 +74,9 @@ function run() {
         }
         if (buildTargetFour == '') {
             buildTargetFour = 'None';
+        }
+        if (buildTargetFive == '') {
+            buildTargetFive = 'None';
         }
         if (slackChannel == '') {
             slackChannel = "Public";
@@ -101,6 +110,9 @@ function run() {
         if (item != null)
             jsonObject.push(item);
         item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+        if (item != null)
+            jsonObject.push(item);
+        item = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
         if (item != null)
             jsonObject.push(item);
         core.setOutput('selectedTarget', JSON.stringify(jsonObject));
@@ -153,6 +165,7 @@ function getMatrixItem(platformName, buildEnvironment, slackData, slackChannel, 
 function getPlatform(platformName) {
     switch (platformName) {
         case Android:
+        case PlayStore:
             {
                 return "Android";
             }
@@ -205,12 +218,17 @@ function getCustomPlatformName(platformName) {
             {
                 return "LinuxServer64";
             }
+        case PlayStore:
+            {
+                return "PlayStore";
+            }
     }
     return "Android";
 }
 function getModules(platformName) {
     switch (platformName) {
         case Android:
+        case PlayStore:
             {
                 return "android";
             }
@@ -240,6 +258,7 @@ function getModules(platformName) {
 function getSubPlatformServer(platformName) {
     switch (platformName) {
         case Android:
+        case PlayStore:
             {
                 return "Player";
             }
