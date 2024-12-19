@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import fs from 'fs';
+import * as httpm from '@actions/http-client';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -12,7 +13,32 @@ const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2
 const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 
-function run(): void {
+async function getBuildVersion(branchName: string): Promise<string> {
+  try {
+    const http = new httpm.HttpClient('build-version-action');
+    const body = JSON.stringify({ branchName });
+
+    const response = await http.post(
+      'https://auto-build-versioning-603574841682.asia-south1.run.app/version',
+      body,
+      {
+        'Content-Type': 'application/json'
+      }
+    );
+
+    const responseBody = await response.readBody();
+    const result = JSON.parse(responseBody);
+
+    if ((result.status === 200 || result.status === 201) && result.data?.buildVersion) {
+      return result.data.buildVersion;
+    }
+    throw new Error(`Failed to get build version: ${responseBody}`);
+  } catch (error) {
+    throw new Error(`Error fetching build version: ${error}`);
+  }
+}
+
+async function run(): Promise<void> {
   try {
     let buildEnvironment = core.getInput('buildEnvironment');
     let buildTargetOne = core.getInput('buildTargetOne');
@@ -27,6 +53,7 @@ function run(): void {
     let evironmentData = core.getInput('evironmentData');
     let buildConfig = core.getInput('buildConfig');
     let buildConfigData = core.getInput('buildConfigData');
+    let branchName = core.getInput('branchName');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -129,7 +156,7 @@ function run(): void {
     modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
     modifiedFile = modifiedFile.replace(regexTwo, updatedSection);
 
-    let buildVersion = ''
+    let buildVersion = await getBuildVersion(branchName);
     if (regexThreeMatch)
       buildVersion = `${regexThreeMatch[1]}_${buildNumber}`;
 
@@ -290,4 +317,6 @@ function getSubPlatformServer(platformName: string): string {
   return "Player";
 }
 
-run()
+run().catch(error => {
+  if (error instanceof Error) core.setFailed(error.message)
+});

@@ -53,6 +53,10 @@ inputs:
     required: true
     description: 'List of build of configs'
     default: '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}'
+  branchName:
+    required: true
+    description: 'The name of the branch being built'
+    default: 'develop'
 
 outputs:
   selectedTarget:
