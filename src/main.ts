@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import fs from 'fs';
+import { getBuildNumber, incrementBuildNumber } from './buildNumber';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -12,7 +13,7 @@ const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2
 const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
 
-function run(): void {
+async function run(): Promise<void> {
   try {
     let buildEnvironment = core.getInput('buildEnvironment');
     let buildTargetOne = core.getInput('buildTargetOne');
@@ -22,11 +23,12 @@ function run(): void {
     let buildTargetFive = core.getInput('buildTargetFive');
     let slackChannel = core.getInput('slackChannel');
     let slackData = core.getInput('slackData');
-    let settingsFilePath = core.getInput('settingsFilePath');
     let buildNumberStepSize = core.getInput('buildNumberStepSize');
     let evironmentData = core.getInput('evironmentData');
     let buildConfig = core.getInput('buildConfig');
     let buildConfigData = core.getInput('buildConfigData');
+    let overrideBuildNumber = core.getInput('overrideBuildNumber');
+    let customBuildNumber = core.getInput('customBuildNumber');
 
     if (buildEnvironment == '') {
       buildEnvironment = 'Development'
@@ -58,10 +60,6 @@ function run(): void {
 
     if (slackData == '') {
       slackData = DefaultSlackObject;
-    }
-
-    if (settingsFilePath == '') {
-      settingsFilePath = 'ProjectSettings/ProjectSettings.asset'
     }
 
     if (buildNumberStepSize == '') {
@@ -103,40 +101,11 @@ function run(): void {
       jsonObject.push(item);
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));
+    const incrementedBuildNumber = await incrementBuildNumber(Number.parseInt(buildNumberStepSize));
+    const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
 
-    const settingsFile = fs.readFileSync(settingsFilePath, 'utf8');
-
-    const regexOne = new RegExp(/AndroidBundleVersionCode: (.*)/g);
-    const regexTwo = new RegExp(/buildNumber:(\r?\n|\r)(( {4}.*(\r?\n|\r))*)(?=  \w+)/g);
-    const regexThree = new RegExp(/bundleVersion: (.*)/g);
-
-    let buildNumberMatch = regexOne.exec(settingsFile);
-    let regexTwoMatch = regexTwo.exec(settingsFile);
-    let regexThreeMatch = regexThree.exec(settingsFile);
-
-    if (!buildNumberMatch)
-      return;
-
-    if (!regexTwoMatch)
-      return;
-
-    let modifiedFile = settingsFile;
-    let buildNumber = parseInt(buildNumberMatch[1]);
-    let stepSize = parseInt(buildNumberStepSize);
-    buildNumber += stepSize;
-
-    let updatedSection = regexTwoMatch[0].replace(/(?<=: )\d+/g, buildNumber.toString());
-    modifiedFile = modifiedFile.replace(buildNumberMatch[0], `AndroidBundleVersionCode: ${buildNumber}`);
-    modifiedFile = modifiedFile.replace(regexTwo, updatedSection);
-
-    let buildVersion = ''
-    if (regexThreeMatch)
-      buildVersion = `${regexThreeMatch[1]}_${buildNumber}`;
-
+    core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     core.setOutput('buildNumber', buildNumber);
-    core.setOutput('buildVersion', buildVersion);
-
-    fs.writeFileSync(settingsFilePath, modifiedFile);
   }
   catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
@@ -290,4 +259,4 @@ function getSubPlatformServer(platformName: string): string {
   return "Player";
 }
 
-run()
+run();
