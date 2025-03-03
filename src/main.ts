@@ -1,6 +1,4 @@
 import * as core from '@actions/core'
-import fs from 'fs';
-import { getBuildNumber, incrementBuildNumber } from './buildNumber';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -100,8 +98,7 @@ async function run(): Promise<void> {
     if (item != null)
       jsonObject.push(item);
 
-    core.setOutput('selectedTarget', JSON.stringify(jsonObject));
-    const incrementedBuildNumber = await incrementBuildNumber(Number.parseInt(buildNumberStepSize));
+    const incrementedBuildNumber = Number.parseInt(customBuildNumber) + Number.parseInt(buildNumberStepSize);
     const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));
