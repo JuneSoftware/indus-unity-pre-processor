@@ -91,7 +91,7 @@ jobs:
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
     - name: Upload Project Settings
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact
       with:
         name: Project Settings
         path: ProjectSettings/ProjectSettings.asset
