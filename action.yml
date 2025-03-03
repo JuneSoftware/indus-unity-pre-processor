@@ -49,9 +49,6 @@ inputs:
     required: true
     description: 'List of build of configs'
     default: '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}'
-  buildNumberAPIKey:
-    required: true
-    description: 'Build number API key'
   overrideBuildNumber:
     required: true
     description: 'Enable overriding build number'

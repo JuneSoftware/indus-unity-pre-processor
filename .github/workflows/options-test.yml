@@ -96,7 +96,6 @@ jobs:
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
         buildTargetFive: "${{ github.event.inputs.buildTargetFive }}"
         buildNumberStepSize: 1000
-        buildNumberAPIKey: "${{ secrets.BUILD_NUMBER_API_KEY }}"
         overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
         currentBuildNumber: "${{ vars.BUILD_NUMBER }}"
         customBuildNumber: "0"
