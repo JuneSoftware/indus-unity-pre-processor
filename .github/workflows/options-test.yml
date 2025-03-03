@@ -84,10 +84,10 @@ jobs:
         buildTargetTwo: "${{ github.event.inputs.buildTargetTwo }}"
         buildTargetThree: "${{ github.event.inputs.buildTargetThree }}"
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
-        buildNumberStepSize: 100
+        buildNumberStepSize: 1000
         buildNumberAPIKey: "${{ secrets.BUILD_NUMBER_API_KEY }}"
         overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
-        customBuildNumber: "${{ github.event.inputs.customBuildNumber }}"
+        customBuildNumber: "${{ vars.BUILD_NUMBER }}"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
     - name: Upload Project Settings
