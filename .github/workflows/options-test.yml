@@ -87,7 +87,8 @@ jobs:
         buildNumberStepSize: 1000
         buildNumberAPIKey: "${{ secrets.BUILD_NUMBER_API_KEY }}"
         overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
-        customBuildNumber: "${{ vars.BUILD_NUMBER }}"
+        currentBuildNumber: "${{ vars.BUILD_NUMBER }}"
+        customBuildNumber: "0"
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
     - name: Upload Project Settings

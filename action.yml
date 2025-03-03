@@ -56,6 +56,10 @@ inputs:
     required: true
     description: 'Enable overriding build number'
     default: false
+  currentBuildNumber:
+    required: true
+    description: 'Current Build number'
+    default: false
   customBuildNumber:
     required: true
     description: 'Custom build number'

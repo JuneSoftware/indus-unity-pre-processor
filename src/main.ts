@@ -26,6 +26,7 @@ async function run(): Promise<void> {
     let buildConfig = core.getInput('buildConfig');
     let buildConfigData = core.getInput('buildConfigData');
     let overrideBuildNumber = core.getInput('overrideBuildNumber');
+    let currentBuildNumber = core.getInput('currentBuildNumber');
     let customBuildNumber = core.getInput('customBuildNumber');
 
     if (buildEnvironment == '') {
@@ -98,7 +99,7 @@ async function run(): Promise<void> {
     if (item != null)
       jsonObject.push(item);
 
-    const incrementedBuildNumber = Number.parseInt(customBuildNumber) + Number.parseInt(buildNumberStepSize);
+    const incrementedBuildNumber = Number.parseInt(currentBuildNumber) + Number.parseInt(buildNumberStepSize);
     const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));

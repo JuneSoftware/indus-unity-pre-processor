@@ -62,6 +62,7 @@ function run() {
             let buildConfig = core.getInput('buildConfig');
             let buildConfigData = core.getInput('buildConfigData');
             let overrideBuildNumber = core.getInput('overrideBuildNumber');
+            let currentBuildNumber = core.getInput('currentBuildNumber');
             let customBuildNumber = core.getInput('customBuildNumber');
             if (buildEnvironment == '') {
                 buildEnvironment = 'Development';
@@ -115,7 +116,7 @@ function run() {
             item = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
             if (item != null)
                 jsonObject.push(item);
-            const incrementedBuildNumber = Number.parseInt(customBuildNumber) + Number.parseInt(buildNumberStepSize);
+            const incrementedBuildNumber = Number.parseInt(currentBuildNumber) + Number.parseInt(buildNumberStepSize);
             const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
             core.setOutput('selectedTarget', JSON.stringify(jsonObject));
             core.setOutput('buildNumber', buildNumber);
