@@ -96,6 +96,11 @@ jobs:
       with:
         name: Project Settings
         path: ProjectSettings/ProjectSettings.asset
+    - uses: action-pack/set-variable@v1
+      with:
+        name: 'BUILD_NUMBER'
+        value: "${{ steps.buildMatrix.outputs.buildNumber }}"
+        token: ${{ secrets.TOKEN }}
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}
