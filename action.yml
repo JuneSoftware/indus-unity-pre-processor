@@ -49,14 +49,10 @@ inputs:
     required: true
     description: 'List of build of configs'
     default: '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}'
-  overrideBuildNumber:
-    required: true
-    description: 'Enable overriding build number'
-    default: false
   customBuildNumber:
     required: true
     description: 'Custom build number'
-    default: '0'
+    default: '-1'
   variableName:
     required: true
     description: 'Name of the build number variable'

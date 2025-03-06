@@ -65,14 +65,9 @@ on:
         - Windows 
         - Windows Server
         - Linux Server
-      overrideBuildNumber:
-        description: 'Override build number'
-        default: false
-        required: true
-        type: boolean
       customBuildNumber:
         description: 'Custom build number'
-        default: "0"
+        default: "-1"
         required: true
         type: string
 
@@ -96,8 +91,7 @@ jobs:
         buildTargetFour: "${{ github.event.inputs.buildTargetFour }}"
         buildTargetFive: "${{ github.event.inputs.buildTargetFive }}"
         buildNumberStepSize: 1000
-        overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
-        customBuildNumber: "0"
+        customBuildNumber: "${{ github.event.inputs.customBuildNumber }}"
         variableName: 'BUILD_NUMBER'
         repoToken: ${{ secrets.TOKEN }}
     - name: Send greeting
