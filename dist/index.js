@@ -207,7 +207,7 @@ function run() {
                 buildConfigData = DefaultBuildConfigDataObject;
             }
             if (customBuildNumber == '') {
-                customBuildNumber = '-1';
+                customBuildNumber = 'No Override';
             }
             let jsonObject = [];
             let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
@@ -225,9 +225,12 @@ function run() {
             item = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
             if (item != null)
                 jsonObject.push(item);
-            let buildNumber = Number.parseInt(customBuildNumber);
-            if (buildNumber <= -1) {
+            let buildNumber = 0;
+            if (customBuildNumber === 'No Override') {
                 buildNumber = yield (0, buildNumber_1.updateBuildNumber)(Number.parseInt(buildNumberStepSize));
+            }
+            else {
+                buildNumber = Number.parseInt(customBuildNumber);
             }
             core.setOutput('selectedTarget', JSON.stringify(jsonObject));
             core.setOutput('buildNumber', buildNumber);

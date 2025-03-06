@@ -67,7 +67,7 @@ on:
         - Linux Server
       customBuildNumber:
         description: 'Custom build number'
-        default: "-1"
+        default: "No Override"
         required: true
         type: string
 

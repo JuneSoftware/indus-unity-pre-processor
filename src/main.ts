@@ -77,7 +77,7 @@ async function run(): Promise<void> {
     }
 
     if (customBuildNumber == '') {
-      customBuildNumber = '-1';
+      customBuildNumber = 'No Override';
     }
 
     let jsonObject = [];
@@ -102,9 +102,11 @@ async function run(): Promise<void> {
     if (item != null)
       jsonObject.push(item);
 
-    let buildNumber: number = Number.parseInt(customBuildNumber);
-    if (buildNumber <= -1) {
+    let buildNumber: number = 0;
+    if (customBuildNumber === 'No Override') {
       buildNumber = await updateBuildNumber(Number.parseInt(buildNumberStepSize));
+    } else {
+      buildNumber = Number.parseInt(customBuildNumber);
     }
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));

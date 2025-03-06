@@ -52,7 +52,7 @@ inputs:
   customBuildNumber:
     required: true
     description: 'Custom build number'
-    default: '-1'
+    default: 'No Override'
   variableName:
     required: true
     description: 'Name of the build number variable'
