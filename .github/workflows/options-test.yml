@@ -97,20 +97,11 @@ jobs:
         buildTargetFive: "${{ github.event.inputs.buildTargetFive }}"
         buildNumberStepSize: 1000
         overrideBuildNumber: "${{ github.event.inputs.overrideBuildNumber }}"
-        currentBuildNumber: "${{ vars.BUILD_NUMBER }}"
         customBuildNumber: "0"
+        variableName: 'BUILD_NUMBER'
+        repoToken: ${{ secrets.TOKEN }}
     - name: Send greeting
       run: echo "${{ steps.buildMatrix.outputs.selectedTarget }}" 
-    - name: Upload Project Settings
-      uses: actions/upload-artifact@v4
-      with:
-        name: Project Settings
-        path: ProjectSettings/ProjectSettings.asset
-    - uses: action-pack/set-variable@v1
-      with:
-        name: 'BUILD_NUMBER'
-        value: "${{ steps.buildMatrix.outputs.buildNumber }}"
-        token: ${{ secrets.TOKEN }}
   build: #To create the builds
     needs: preBuilds
     name: Build for ${{ matrix.targetPlatform.customPlatformName }}

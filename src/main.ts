@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import { updateBuildNumber } from './buildNumber';
 
 const Android = "Android";
 const iOS = "iOS";
@@ -6,7 +7,7 @@ const Windows = "Windows";
 const WindowsServer = "Windows Server";
 const Linux = "Linux";
 const LinuxServer = "Linux Server";
-const PlayStore="Play Store";
+const PlayStore = "Play Store";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
@@ -26,7 +27,6 @@ async function run(): Promise<void> {
     let buildConfig = core.getInput('buildConfig');
     let buildConfigData = core.getInput('buildConfigData');
     let overrideBuildNumber = core.getInput('overrideBuildNumber');
-    let currentBuildNumber = core.getInput('currentBuildNumber');
     let customBuildNumber = core.getInput('customBuildNumber');
 
     if (buildEnvironment == '') {
@@ -99,8 +99,12 @@ async function run(): Promise<void> {
     if (item != null)
       jsonObject.push(item);
 
-    const incrementedBuildNumber = Number.parseInt(currentBuildNumber) + Number.parseInt(buildNumberStepSize);
-    const buildNumber = overrideBuildNumber === 'true' ? customBuildNumber : incrementedBuildNumber;
+    let buildNumber: number = 0;
+    if (overrideBuildNumber === 'true') {
+      buildNumber = Number.parseInt(customBuildNumber);
+    } else {
+      buildNumber = await updateBuildNumber(Number.parseInt(buildNumberStepSize));
+    }
 
     core.setOutput('selectedTarget', JSON.stringify(jsonObject));
     core.setOutput('buildNumber', buildNumber);

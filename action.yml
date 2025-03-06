@@ -53,14 +53,18 @@ inputs:
     required: true
     description: 'Enable overriding build number'
     default: false
-  currentBuildNumber:
-    required: true
-    description: 'Current Build number'
-    default: false
   customBuildNumber:
     required: true
     description: 'Custom build number'
-    default: false
+    default: '0'
+  variableName:
+    required: true
+    description: 'Name of the build number variable'
+    default: 'BUILD_NUMBER'
+  repoToken:
+    required: true
+    description: 'Repo scoped PAT'
+    default: ''
 
 outputs:
   selectedTarget:
