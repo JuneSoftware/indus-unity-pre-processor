@@ -209,22 +209,12 @@ function run() {
             if (customBuildNumber == '') {
                 customBuildNumber = 'No Override';
             }
-            let jsonObject = [];
-            let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-            if (item != null)
-                jsonObject.push(item);
-            item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-            if (item != null)
-                jsonObject.push(item);
-            item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-            if (item != null)
-                jsonObject.push(item);
-            item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-            if (item != null)
-                jsonObject.push(item);
-            item = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-            if (item != null)
-                jsonObject.push(item);
+            let jsonObject = { buildOne: {}, buildTwo: {}, buildThree: {}, buildFour: {}, buildFive: {} };
+            jsonObject.buildOne = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+            jsonObject.buildTwo = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+            jsonObject.buildThree = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+            jsonObject.buildFour = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+            jsonObject.buildFive = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
             let buildNumber = 0;
             if (customBuildNumber === 'No Override') {
                 buildNumber = yield (0, buildNumber_1.updateBuildNumber)(Number.parseInt(buildNumberStepSize));
@@ -253,9 +243,11 @@ function getMatrixItem(platformName, buildEnvironment, slackData, slackChannel, 
         let environmentData = environmentDataObj[buildEnvironment];
         let buildConfigDataObj = JSON.parse(buildConfigDataJSON);
         let buildConfigData = buildConfigDataObj[buildConfig];
-        return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData };
+        let canBuild = true;
+        return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData, canBuild };
     }
-    return null;
+    let canBuild = false;
+    return { canBuild };
 }
 function getPlatform(platformName) {
     switch (platformName) {
