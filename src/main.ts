@@ -80,13 +80,27 @@ async function run(): Promise<void> {
       customBuildNumber = 'No Override';
     }
 
-    let jsonObject = { buildOne: {}, buildTwo: {}, buildThree: {}, buildFour: {}, buildFive: {} };
+    let jsonObject = [];
 
-    jsonObject.buildOne = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-    jsonObject.buildTwo = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-    jsonObject.buildThree = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-    jsonObject.buildFour = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
-    jsonObject.buildFive = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    let item = getMatrixItem(buildTargetOne, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    if (item != null)
+      jsonObject.push(item);
+
+    item = getMatrixItem(buildTargetTwo, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    if (item != null)
+      jsonObject.push(item);
+
+    item = getMatrixItem(buildTargetThree, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    if (item != null)
+      jsonObject.push(item);
+
+    item = getMatrixItem(buildTargetFour, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    if (item != null)
+      jsonObject.push(item);
+
+    item = getMatrixItem(buildTargetFive, buildEnvironment, slackData, slackChannel, evironmentData, buildConfig, buildConfigData);
+    if (item != null)
+      jsonObject.push(item);
 
     let buildNumber: number = 0;
     if (customBuildNumber === 'No Override') {
@@ -116,12 +130,10 @@ function getMatrixItem(platformName: string, buildEnvironment: string, slackData
     let environmentData = environmentDataObj[buildEnvironment];
     let buildConfigDataObj = JSON.parse(buildConfigDataJSON);
     let buildConfigData = buildConfigDataObj[buildConfig];
-    let canBuild = true;
-    return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData, canBuild };
+    return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData };
   }
 
-  let canBuild = false;
-  return { canBuild };
+  return null;
 }
 
 function getPlatform(platformName: string): string {
