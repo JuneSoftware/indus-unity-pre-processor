@@ -152,6 +152,7 @@ const Linux = "Linux";
 const LinuxServer = "Linux Server";
 const PlayStore = "Play Store";
 const GooglePlayGamesForPC = "Google Play Games For PC";
+const FullLtoRunnerLabel = "FullLTO";
 const DefaultSlackObject = '{"Public":"SLACK_WEBHOOK","Private":"SLACK_WEBHOOK_2"}';
 const DefaultEvironmentDataObject = '{"Development":{"GCPKey":"SERVICE_ACCOUNT_KEY_DEV","GCPURL":"GCP_BUILD_URL_PREFIX_DEV","GCPURLPrefix":"indus-builds"},"Staging":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Release":{"GCPKey":"GCP_BUILD_URL_PREFIX_STAGING","GCPURL":"SERVICE_ACCOUNT_KEY_STAGING","GCPURLPrefix":"indus-builds-stage"},"Production":{"GCPKey":"GCP_BUILD_URL_PREFIX_PROD","GCPURL":"SERVICE_ACCOUNT_KEY_PROD","GCPURLPrefix":"indus-builds-prod"}}';
 const DefaultBuildConfigDataObject = '{"Default":"Assets/Indus/Platform/Build/Configurations/Config.Build.Default.asset"}';
@@ -254,9 +255,18 @@ function getMatrixItem(platformName, buildEnvironment, slackData, slackChannel, 
         let environmentData = environmentDataObj[buildEnvironment];
         let buildConfigDataObj = JSON.parse(buildConfigDataJSON);
         let buildConfigData = buildConfigDataObj[buildConfig];
-        return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData };
+        let requiredRunnerLabels = getRequiredRunnerLabels(platformName);
+        return { platform, customPlatformName, modules, subPlatformServer, buildEnvironment, slackWebHook, environmentData, buildConfigData, requiredRunnerLabels };
     }
     return null;
+}
+function getRequiredRunnerLabels(platformName) {
+    const prefix = platformName === Android ? 'android' : platformName === PlayStore ? 'playStore' : '';
+    if (prefix === '')
+        return [];
+    const pgoMode = core.getInput(prefix + 'PgoMode').toLowerCase();
+    const ltoMode = core.getInput(prefix + 'LtoMode').toLowerCase();
+    return ltoMode === 'full' && pgoMode !== 'train' ? [FullLtoRunnerLabel] : [];
 }
 function getPlatform(platformName) {
     switch (platformName) {
@@ -320,9 +330,9 @@ function getCustomPlatformName(platformName) {
                 return "PlayStore";
             }
         case GooglePlayGamesForPC:
-        {
-            return "GooglePlayGamesForPC";
-        }
+            {
+                return "GooglePlayGamesForPC";
+            }
     }
     return "Android";
 }

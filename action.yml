@@ -62,9 +62,26 @@ inputs:
     description: 'Repo scoped PAT'
     default: ''
 
+  androidPgoMode:
+    required: false
+    description: 'Android PGO mode'
+    default: 'Disabled'
+  androidLtoMode:
+    required: false
+    description: 'Android LTO mode'
+    default: 'Disabled'
+  playStorePgoMode:
+    required: false
+    description: 'Play Store PGO mode'
+    default: 'Disabled'
+  playStoreLtoMode:
+    required: false
+    description: 'Play Store LTO mode'
+    default: 'Disabled'
+
 outputs:
   selectedTarget:
-    description: Generated matrix
+    description: Generated matrix including per-platform requiredRunnerLabels
   buildNumber:
     description: Build Number
     
